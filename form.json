@@ -1,0 +1,994 @@
+{
+    "_id": "64a9bf233630df39ca9ea189",
+    "title": "MIA",
+    "name": "mia",
+    "path": "mia",
+    "type": "resource",
+    "display": "form",
+    "tags": [
+        "common"
+    ],
+    "submissionAccess": [
+        {
+            "type": "create_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "read_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "update_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "delete_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        }
+    ],
+    "owner": "64a9bef23630df39ca9ea157",
+    "components": [
+        {
+            "clearOnHide": false,
+            "key": "panel",
+            "input": false,
+            "title": "Construction, Maintenance Phase & End-of Life Phases",
+            "theme": "warning",
+            "tableView": false,
+            "components": [
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "radio",
+                    "label": "Select Type of Road Pavement:",
+                    "key": "roadPavement",
+                    "values": [
+                        {
+                            "value": "rigid",
+                            "label": "Rigid",
+                            "shortcut": ""
+                        },
+                        {
+                            "value": "flexible",
+                            "label": "Flexible",
+                            "shortcut": ""
+                        }
+                    ],
+                    "defaultValue": "",
+                    "protected": false,
+                    "fieldSet": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": true,
+                        "custom": "",
+                        "customPrivate": false
+                    },
+                    "type": "radio",
+                    "labelPosition": "top",
+                    "optionsLabelPosition": "right",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "radio",
+                    "label": "Select Road Infrastructures:",
+                    "key": "panelSelectRoadInfrastructures",
+                    "values": [
+                        {
+                            "value": "footpath",
+                            "label": "Footpath",
+                            "shortcut": ""
+                        },
+                        {
+                            "value": "slabCulvert",
+                            "label": "Slab culvert",
+                            "shortcut": ""
+                        },
+                        {
+                            "value": "pipeCulvert",
+                            "label": "Pipe culvert",
+                            "shortcut": ""
+                        },
+                        {
+                            "value": "overheadSignage",
+                            "label": "Overhead Signage",
+                            "shortcut": ""
+                        },
+                        {
+                            "value": "flyover",
+                            "label": "Flyover",
+                            "shortcut": ""
+                        }
+                    ],
+                    "defaultValue": "",
+                    "protected": false,
+                    "fieldSet": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "custom": "",
+                        "customPrivate": false
+                    },
+                    "type": "radio",
+                    "labelPosition": "top",
+                    "optionsLabelPosition": "right",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Footpath Information",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter Length of Footpath in km",
+                            "key": "lengthOfFootpath",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "delimiter": false,
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "panelSelectRoadInfrastructures",
+                        "eq": "footpath"
+                    },
+                    "properties": {},
+                    "customClass": "field-set-header"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset2",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Slab Culvert Information",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter length of slab culvert in metre",
+                            "key": "lengthOfSlabCulvert",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter no. of slab culvert",
+                            "key": "noOfSlabCulvert",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "panelSelectRoadInfrastructures",
+                        "eq": "slabCulvert"
+                    },
+                    "properties": {},
+                    "customClass": "field-set-header"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset8",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Pipe Culvert",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter diameter of pipe culvert in mm:",
+                            "key": "diameterOfPipeCulvert",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter no. of pipe culvert:",
+                            "key": "noOfPipeCulvert",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "panelSelectRoadInfrastructures",
+                        "eq": "pipeCulvert"
+                    },
+                    "properties": {},
+                    "customClass": "field-set-header"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset4",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Overhead Signage Information",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "text",
+                            "inputMask": "",
+                            "label": "Enter no. of overhead signage:",
+                            "key": "noOfOverheadSignage",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "multiple": false,
+                            "defaultValue": "",
+                            "protected": false,
+                            "unique": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "spellcheck": true,
+                            "validate": {
+                                "required": false,
+                                "minLength": "",
+                                "maxLength": "",
+                                "pattern": "",
+                                "custom": "",
+                                "customPrivate": false
+                            },
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "type": "textfield",
+                            "labelPosition": "top",
+                            "inputFormat": "plain",
+                            "tags": [],
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "panelSelectRoadInfrastructures",
+                        "eq": "overheadSignage"
+                    },
+                    "properties": {},
+                    "customClass": "field-set-header"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset5",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Flyover Information",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter length of flyover:",
+                            "key": "lengthOfFlyover",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter no. of flyover:",
+                            "key": "noOfFlyover",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "panelSelectRoadInfrastructures",
+                        "eq": "flyover"
+                    },
+                    "properties": {}
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter number of lanes:",
+                    "key": "npOfLanes",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true,
+                    "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter total distance to be travelled in km per year:",
+                    "key": "totalDistanceTravelledPerYear",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "true",
+                        "when": "npOfLanes",
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true,
+                    "customConditional": "show = data[\"npOfLanes\"] > 0"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset6",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Vehicle Info",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of distance covered by bus:",
+                            "key": "distanceCoveredByBus",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of distance covered by car:",
+                            "key": "distanceCoveredByCar",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of distance covered by taxi:",
+                            "key": "distanceCoveredByTaxi",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of distance covered by auto:",
+                            "key": "distanceCoveredByAuto",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "customConditional": "show = data[\"totalDistanceTravelledPerYear\"] > 0"
+                },
+                {
+                    "clearOnHide": false,
+                    "key": "panelFieldset7",
+                    "input": false,
+                    "tableView": false,
+                    "legend": "Passengers Info",
+                    "components": [
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter number of passengers per year:",
+                            "key": "noOfPassengersPerYear",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of passenger travelling from bus:",
+                            "key": "passengerTravellingFromBus",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of passenger travelling from car:",
+                            "key": "passengerTravellingFromCar",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of passenger travelling from taxi:",
+                            "key": "passengerTravellingFromTaxi",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        },
+                        {
+                            "autofocus": false,
+                            "input": true,
+                            "tableView": true,
+                            "inputType": "number",
+                            "label": "Enter % of passenger travelling from auto:",
+                            "key": "passengerTravellingFromAuto",
+                            "placeholder": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "defaultValue": "",
+                            "protected": false,
+                            "persistent": true,
+                            "hidden": false,
+                            "clearOnHide": true,
+                            "validate": {
+                                "required": false,
+                                "min": "",
+                                "max": "",
+                                "step": "any",
+                                "integer": "",
+                                "multiple": "",
+                                "custom": ""
+                            },
+                            "type": "number",
+                            "labelPosition": "top",
+                            "tags": [],
+                            "conditional": {
+                                "show": "",
+                                "when": null,
+                                "eq": ""
+                            },
+                            "properties": {},
+                            "lockKey": true
+                        }
+                    ],
+                    "type": "fieldset",
+                    "hideLabel": true,
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "collapsible": false,
+                    "customConditional": "show = ((data[\"distanceCoveredByBus\"] + data[\"distanceCoveredByCar\"] + data[\"distanceCoveredByAuto\"] + data[\"distanceCoveredByTaxi\"]) == 100)"
+                }
+            ],
+            "type": "panel",
+            "breadcrumb": "default",
+            "hideLabel": false,
+            "tags": [],
+            "conditional": {
+                "show": "",
+                "when": null,
+                "eq": ""
+            },
+            "properties": {},
+            "collapsible": false,
+            "customClass": "panel-header"
+        },
+        {
+            "autofocus": false,
+            "input": true,
+            "label": "Submit",
+            "tableView": false,
+            "key": "submit",
+            "size": "md",
+            "leftIcon": "",
+            "rightIcon": "",
+            "block": false,
+            "action": "submit",
+            "disableOnInvalid": false,
+            "theme": "primary",
+            "type": "button"
+        }
+    ],
+    "access": [
+        {
+            "type": "read_all",
+            "roles": [
+                "64a9bee43630df39ca9ea111",
+                "64a9bee43630df39ca9ea115",
+                "64a9bee43630df39ca9ea119"
+            ]
+        }
+    ],
+    "created": "2023-07-08T19:55:15.874Z",
+    "modified": "2023-07-16T18:29:28.921Z",
+    "machineName": "mia"
+}
