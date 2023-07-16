@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Code Block Example</title>
+  <style>
+    #codeContainer {
+      margin-bottom: 20px;
+    }
+
+    #codeHeading {
+      font-family: 'Arial', sans-serif;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      color: #333;
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #codeBlock {
+      background-color: #f1f1f1;
+      color: #333;
+      padding: 10px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+
+    #codeBlock code {
+      color: #ff6f00; /* Orange font color */
+    }
+  </style>
+</head>
+<body>
+  <div id="codeContainer">
+    <h2 id="codeHeading">Derivation</h2>
+    <div id="codeBlock"><code></code></div>
+  </div>
+
+  <script>
+    // Function to display code in the code block
+    function displayCodeBlock(code) {
+      var codeBlock = document.getElementById('codeBlock');
+      var codeElement = codeBlock.querySelector('code');
+      codeElement.textContent = code;
+    }
+
+    // Example code
+    var sampleCode = `function addNumbers(a, b) {
+  return a + b;
+}
+
+var result = addNumbers(2, 3);
+console.log(result);`;
+
+    // Display the code in the code block
+    displayCodeBlock(sampleCode);
+  </script>
+</body>
+</html>

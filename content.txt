@@ -1,0 +1,269 @@
+Questions 
+
+
+import Image from 'next/image'
+import styles from './page.module.css'
+
+
+export default function Home() {
+return (
+<main className={styles.main}>
+<div className={styles.description}>
+<form action="/send-data-here" method="post">
+<label for="first">First name:</label>
+<input type="text" id="first" name="first" />
+<label for="last">Last name:</label>
+<input type="text" id="last" name="last" />
+<button type="submit">Submit</button>
+</form>
+
+
+<p>
+<code className={styles.code}>Mobility Impact Analyser (MIA) Tool</code>
+</p>
+<div>
+<a
+href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+target="_blank"
+rel="noopener noreferrer"
+>
+By{' '}
+Yash Aryan
+</a>
+</div>
+</div>
+
+
+<div className={styles.center}>
+Environment Test
+</div>
+
+
+<div className={styles.grid}>
+<a
+href="/road"
+className={styles.card}
+target="_blank"
+rel="noopener noreferrer"
+>
+<h2>
+Road <span>-&gt;</span>
+</h2>
+</a>
+
+
+<a
+href="/railway"
+className={styles.card}
+target="_blank"
+rel="noopener noreferrer"
+>
+<h2>
+Railway <span>-&gt;</span>
+</h2>
+</a>
+
+
+<a
+href="/metro"
+className={styles.card}
+target="_blank"
+rel="noopener noreferrer"
+>
+<h2>
+Metro <span>-&gt;</span>
+</h2>
+</a>
+
+
+</div>
+</main>
+)
+}
+
+
+
+
+
+
+
+
+
+let mode_of_tranportation = [
+{
+'mode': 'Road',
+'type': ['Rigid', 'Flexible'],
+'sub_type': {
+'footpath':{
+'q': 'Enter length of footpath in km:'
+},
+'Slab culvert':{
+'q': 'Enter length of slab culvert in metre:',
+'q2': 'Enter no. of slab culvert:',
+},
+'Pipe culvert':{
+'q': 'Enter diameter of pipe culvert in mm:',
+'q2': 'Enter no. of pipe culvert:',
+},
+'Overhead signage': {
+'q': 'Enter no. of overhead signage:',
+},
+'FlyOver': {
+'q': 'Enter length of flyover:',
+'q2': 'Enter no. of flyover:'
+}
+
+
+}
+},
+{
+'mode': 'Railway'
+},
+{
+'mode': 'Metro'
+}
+]
+
+
+let road_travel_options = ['Bus', 'Car', 'Taxi', 'Auto']
+
+
+// Impact
+
+
+let impact_from_rigid_pavement = {
+'abiotic_depletion_fossil': '2,22,403 MJ/km/year',
+'acidification': '3963 kg SO 2 eq./km/year',
+'Global Warming': '31,152 kg CO 2 eq./km/year'
+}
+
+
+
+
+let impact_from_flexible_pavement = {
+'abiotic_depletion_fossil': '6,02,243 MJ/km/year',
+'acidification': '4004 kg SO 2 eq./km/year',
+'Global Warming': '23,382 kg CO 2 eq./km/year'
+}
+
+
+let vehicle_impact = {
+'bus': {
+'abiotic_depletion_fossil': '40,800 MJ/year',
+'acidification': '11 kg SO 2 eq./year',
+'Global Warming': '2400 kg CO 2 eq./km/year'
+},
+'car': {
+'abiotic_depletion_fossil': '2756 MJ/year',
+'acidification': '0.83 kg SO 2 eq./year',
+'Global Warming': '149 kg CO 2 eq./km/year'
+},
+'taxi': {
+'abiotic_depletion_fossil': '3675 MJ/year',
+'acidification': '1.11 kg SO 2 eq./year',
+'Global Warming': '198 kg CO 2 eq./km/year'
+},
+'auto': {
+'abiotic_depletion_fossil': '1657 MJ/year',
+'acidification': '0.52 kg SO 2 eq./year',
+'Global Warming': '84 kg CO 2 eq./year'
+},
+}
+
+
+let general_impact = {
+"footpath": {
+"Abiotic Depletion fossil": "10,417 MJ/km/year",
+"Acidification": "5.077 kg SO2 eq./km/year",
+"Global Warming": "3,507 kg CO2 eq./km/year"
+},
+"slab culvert": {
+"Abiotic Depletion fossil": "11,135 MJ/year",
+"Acidification": "3.73 kg SO2 eq./year",
+"Global Warming": "2,606 kg CO2 eq./year"
+},
+"pipe culvert": {
+"Abiotic Depletion fossil": "3.291 MJ/year",
+"Acidification": "0.0009925 kg SO2 eq./year",
+"Global Warming": "0.68 kg CO2 eq./year"
+},
+"overhead signage": {
+"Abiotic Depletion fossil": "6,947 MJ/year",
+"Acidification": "2.96 kg SO2 eq./year",
+"Global Warming": "807 kg CO2 eq./year"
+},
+"flyover": {
+"Abiotic Depletion fossil": "43,65,585 MJ/year",
+"Acidification": "1,625 kg SO2 eq./year",
+"Global Warming": "4,01,919 kg CO2 eq./year"
+}
+}
+
+
+let use_phase = {
+"CNG": {
+"Abiotic Depletion fossil": "55.9 MJ",
+"Acidification": "0.00112 kg SO2 eq.",
+"Global Warming": "0.743 kg CO2 eq."
+},
+"diesel": {
+"Abiotic Depletion fossil": "42.3 MJ",
+"Acidification": "0.00234 kg SO2 eq.",
+"Global Warming": "0.436 kg CO2 eq."
+},
+"petrol": {
+"Abiotic Depletion fossil": "38 MJ",
+"Acidification": "0.00393 kg SO2 eq.",
+"Global Warming": "0.497 kg CO2 eq."
+}
+}
+
+
+
+
+// User input
+let z = parseInt(prompt("Enter number of lanes: "));
+let d_T = parseInt(prompt("Enter total distance to be traveled in km per year: "));
+let a1 = parseFloat(prompt("Enter % of distance covered by bus: "));
+let b1 = parseFloat(prompt("Enter % of distance covered by car: "));
+let c1 = parseFloat(prompt("Enter % of distance covered by taxi: "));
+let d1 = parseFloat(prompt("Enter % of distance covered by auto: "));
+let x = parseInt(prompt("Enter number of passengers per year: "));
+let a2 = parseFloat(prompt("Enter % of passengers traveling from bus: "));
+let b2 = parseFloat(prompt("Enter % of passengers traveling from car: "));
+let c2 = parseFloat(prompt("Enter % of passengers traveling from taxi: "));
+let d2 = parseFloat(prompt("Enter % of passengers traveling from auto: "));
+
+
+// Calculations
+let e1 = (a1 / 100) * d_T;
+let f1 = (b1 / 100) * d_T;
+let g1 = (c1 / 100) * d_T;
+let h1 = (d1 / 100) * d_T;
+
+
+let e2 = (a2 / 100) * x;
+let f2 = (b2 / 100) * x;
+let g2 = (c2 / 100) * x;
+let h2 = (d2 / 100) * x;
+
+
+// Printing the results
+console.log("Distance covered by bus (e1):", e1);
+console.log("Passenger distance covered by car (f1):", f1);
+console.log("Passenger distance covered by taxi (g1):", g1);
+console.log("Passenger distance covered by auto (h1):", h1);
+
+
+console.log("Passenger traveling from bus (e2):", e2);
+console.log("Passenger traveling from car (f2):", f2);
+console.log("Passenger traveling from taxi (g2):", g2);
+console.log("Passenger traveling from auto (h2):", h2);
+
+
+
+
+
+
+let number_of_passengers = 10;
+

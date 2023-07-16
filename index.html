@@ -1,1 +1,894 @@
-DSS
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mobility Impact Analyser (MIA) Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.form.io/formiojs/formio.full.min.js"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="https://cdn.form.io/ace/ace.js"></script>
+
+    <script src="https://cdn.form.io/formiojs/formio.full.min.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      /* Set font and spacing */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.5;
+
+        font-family: "Roboto", sans-serif;
+        /* background-color: #f1f1f1;
+        padding: 20px; */
+      }
+
+      #formio {
+        /* width: 700px !important; */
+        /* margin: auto; */
+        margin-top: 50px;
+        float: left;
+        width: 40%;
+      }
+
+      #results-div {
+        /* margin: auto; */
+        margin-top: 50px;
+        float: left;
+        width: 45%;
+        margin-left: 50px;
+      }
+
+      #main-container {
+        padding: 30px;
+      }
+      .sr-only {
+        display: none;
+      }
+
+      .second-order-heading legend {
+        font-size: inherit;
+        margin-top: 12px;
+      }
+
+      /* Form container */
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      /* Form fields */
+      form input[type="text"],
+      form input[type="email"],
+      form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      /* Form labels */
+      form label {
+        font-weight: bold;
+      }
+
+      /* Submit button */
+      form input[type="submit"] {
+        background-color: #4285f4;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      form input[type="submit"]:hover {
+        background-color: #3367d6;
+      }
+
+      /* Error messages */
+      form .error {
+        color: #ff0000;
+        margin-top: 5px;
+      }
+
+      /* Success message */
+      form .success {
+        color: #008000;
+        margin-top: 5px;
+      }
+
+      #derivation-div {
+        background-color: #f1f1f1;
+        color: #333;
+        padding: 10px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        color: #ff6f00; /* Orange font color */
+      }
+
+      #codeHeading {
+        font-family: "Arial", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        color: #333;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      /* #construction-phase-results-div {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      } */
+
+      .result-containers {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .impact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .icon {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #ff6f00; /* Orange color */
+      }
+
+      .impact-text {
+        font-size: 16px;
+        color: #333; /* Dark gray color */
+        line-height: 1.4;
+      }
+
+      .unit {
+        font-size: 12px;
+        color: #777; /* Light gray color */
+      }
+
+      .card-header {
+        background-color: #ff6f00 !important; /* Orange font color */
+      }
+
+      .field-set-header legend {
+        font-size: 17px;
+        margin-top: 15px;
+      }
+
+      .header {
+        background-color: #3498db; /* Update with your preferred background color */
+        padding: 20px;
+        color: #fff;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .logo-icon {
+        margin-right: 5px;
+      }
+
+      .menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      .menu-item {
+        margin-right: 20px;
+      }
+
+      .menu-link {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .menu-link:hover {
+        color: #ffd700; /* Update with your preferred hover color */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <nav class="nav">
+        <h1 class="logo">
+          <i class="fas fa-cogs logo-icon"></i>
+          Concept of Mobility Impact Analyser (MIA) Tool
+        </h1>
+        <!-- <ul class="menu">
+        <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">About</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">Contact</a></li>
+      </ul> -->
+      </nav>
+    </div>
+
+    <div id="main-container">
+      <div id="formio"></div>
+
+      <div id="results-div">
+        <div class="result-containers" id="construction-phase-results-div">
+          <div class="title">Construction Impact on the Environment</div>
+
+          <!-- <div class="impact-item">
+            <div class="icon">
+              <i class="fas fa-fire-alt"></i>
+            </div>
+            <div class="impact-text">
+              Total Construction Phase Impacts from Rigid Pavement & Selected
+              Road Infrastructures on Abiotic Depletion Fossil
+            </div>
+            <div class="unit">IRCME in MJ/km/year</div>
+          </div>
+
+          <div class="impact-item">
+            <div class="icon">
+              <i class="fas fa-cloud"></i>
+            </div>
+            <div class="impact-text">
+              Total Construction Impacts from Rigid Pavement & Selected Road
+              Infrastructures on Acidification
+            </div>
+            <div class="unit">IRCME in kg SO2 eq./km/year</div>
+          </div>
+
+          <div class="impact-item">
+            <div class="icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <div class="impact-text">
+              Total Construction Impacts from Rigid Pavement & Selected Road
+              Infrastructures on Global Warming
+            </div>
+            <div class="unit">IRCME in kg CO2 eq./km/year</div>
+          </div> -->
+        </div>
+        <div class="result-containers" id="derivation-div">
+          <div class="title">Derivation</div>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        // var derivationDiv = null;
+        window.onload = function () {
+          let url = "";
+          url = "https://examples.form.io/example";
+
+          url = "http://localhost:3001/mia";
+
+          Formio.createForm(document.getElementById("formio"), url, {
+            hooks: {
+              beforeSubmit: (submission, next) => {
+                console.log("Before Submit.", submission);
+                if (submission && submission.data) {
+                  if (!checkMissingKeys(submission.data)) {
+                    console.log("Missing Keys Value");
+                    return;
+                  } else {
+                    clearDerivationContent();
+                    startComputing(submission.data);
+                  }
+                }
+              },
+            },
+          });
+        };
+
+        function checkMissingKeys(inputJson) {
+          let array = [
+            "distanceCoveredByAuto",
+            "distanceCoveredByBus",
+            "distanceCoveredByCar",
+            "distanceCoveredByTaxi",
+            // "lengthOfFootpath", // ToDo: Add check for conditional keys
+            "noOfPassengersPerYear",
+            "npOfLanes",
+            "panelSelectRoadInfrastructures",
+            "passengerTravellingFromAuto",
+            "passengerTravellingFromBus",
+            "passengerTravellingFromCar",
+            "passengerTravellingFromTaxi",
+            "roadPavement",
+            "totalDistanceTravelledPerYear",
+          ];
+
+          const jsonKeys = Object.keys(inputJson);
+          for (let i = 0; i < array.length; i++) {
+            const key = array[i];
+
+            if (!jsonKeys.includes(key)) {
+              console.error(
+                `Error: Key "${key}" is missing in the input JSON.`
+              );
+
+              throw new Error(
+                `Error: Key "${key}" is missing in the input JSON.`
+              );
+              return false;
+            }
+          }
+
+          return true;
+        }
+
+        function startComputing(inputJson) {
+          // Footpath
+          let y1 = inputJson.lengthOfFootpath;
+
+          // Slab Culvert
+          let y2 = inputJson.lengthOfSlabCulvert; // lengthOfSlabCulvert
+          let y3 = inputJson.noOfSlabCulvert; // noOfSlabCulvert
+
+          // Pipe Culvert
+          let y4 = inputJson.diameterOfPipeCulvert;
+          let y5 = inputJson.noOfPipeCulvert;
+
+          // Overhead Signage
+          let y6 = inputJson.noOfOverheadSignage;
+
+          //Flyover
+          let y7 = inputJson.lengthOfFlyover;
+          let y8 = inputJson.noOfFlyover;
+
+          //No of Lanes
+          let z = inputJson.npOfLanes;
+
+          // Total Distance Tobe Travelled in km per year
+          let dT = inputJson.totalDistanceTravelledPerYear;
+
+          logVariableDerivations({ y1, y2, y3, y4, y5, y6, y7, y8, z, dT });
+          // % of distance covered by vehicle
+          let a1 = inputJson.distanceCoveredByBus;
+          let b1 = inputJson.distanceCoveredByCar;
+          let c1 = inputJson.distanceCoveredByTaxi;
+          let d1 = inputJson.distanceCoveredByAuto;
+
+          // Distance Travelled by Bus
+          let e1 = calculatePercentageOfNumber(a1, dT);
+
+          // Distance Travelled by Car
+          let f1 = calculatePercentageOfNumber(b1, dT);
+
+          // Distance Travelled by Taxi
+          let g1 = calculatePercentageOfNumber(c1, dT);
+
+          // Distance Travelled by Auto
+          let h1 = calculatePercentageOfNumber(d1, dT);
+          logVariableDerivations({ a1, b1, c1, d1, e1, f1, g1, h1 });
+          console.log(
+            `Distance Travelled By Bus: ${e1} Car: ${f1} Taxi: ${g1} Auto: ${h1}`
+          );
+
+          if (dT != e1 + f1 + g1 + h1) {
+            throw new Error(
+              `Total Distance in kms ${dT} & distance covered by vehicles (${
+                e1 + f1 + g1 + h1
+              }) are not matching up.`
+            );
+          }
+
+          // No of passengers per year
+          let x = inputJson.noOfPassengersPerYear;
+
+          // Travelling from Vehicles
+          let a2 = inputJson.passengerTravellingFromBus;
+          let b2 = inputJson.passengerTravellingFromCar;
+          let c2 = inputJson.passengerTravellingFromTaxi;
+          let d2 = inputJson.passengerTravellingFromAuto;
+          // Passenger travelling by Bus
+          let e2 = calculatePercentageOfNumber(a2, x);
+
+          // Passenger travelling by Car
+          let f2 = calculatePercentageOfNumber(b2, x);
+
+          // Passenger travelling by Taxi
+          let g2 = calculatePercentageOfNumber(c2, x);
+
+          // Passenger travelling by Auto
+          let h2 = calculatePercentageOfNumber(d2, x);
+          logVariableDerivations({ a2, b2, c2, d2, e2, f2, g2, h2 });
+
+          console.log(
+            `Passenger Travelling By Bus: ${e2} Car: ${f2} Taxi: ${g2} Auto: ${h2}`
+          );
+
+          if (x != e2 + f2 + g2 + h2) {
+            throw new Error(
+              `Total Passengers Travelling Per Year ${x} & Passenger travelling by vehicles (${
+                e2 + f2 + g2 + h2
+              }) are not matching up.`
+            );
+          }
+
+          let passengesPerBus = 53;
+          let passengersPerCar = 2.5;
+          let passengersPerTaxi = 2;
+          let passengersPerAuto = 1.5;
+
+          logVariableDerivations({
+            passengesPerBus,
+            passengersPerCar,
+            passengersPerTaxi,
+            passengersPerAuto,
+          });
+
+          // No. of Vehicles required
+          let i = calculateVehiclesRequired(e2, passengesPerBus);
+          let j = calculateVehiclesRequired(f2, passengersPerCar);
+          let k = calculateVehiclesRequired(g2, passengersPerTaxi);
+          let l = calculateVehiclesRequired(h2, passengersPerAuto);
+
+          logVariableDerivations({ i, j, k, l });
+
+          let vehicle_impact = {
+            bus: {
+              abiotic_depletion_fossil: 40800,
+              acidification: 11,
+              global_warming: 2400,
+            },
+            car: {
+              abiotic_depletion_fossil: 2756,
+              acidification: 0.83,
+              global_warming: 149,
+            },
+            taxi: {
+              abiotic_depletion_fossil: 3675,
+              acidification: 1.11,
+              global_warming: 198,
+            },
+            auto: {
+              abiotic_depletion_fossil: 1657,
+              acidification: 0.52,
+              global_warming: 84,
+            },
+          };
+
+          let infraImpact = {
+            footpath: {
+              abiotic_depletion_fossil: 10417,
+              acidification: 5.077,
+              global_warming: 3507,
+            },
+
+            slab_culvert: {
+              abiotic_depletion_fossil: 11135,
+              acidification: 3.73,
+              global_warming: 2606,
+            },
+
+            pipe_culvert: {
+              abiotic_depletion_fossil: 3.291,
+              acidification: 0.0009925,
+              global_warming: 0.68,
+            },
+
+            overhead_signage: {
+              abiotic_depletion_fossil: 6947,
+              acidification: 2.96,
+              global_warming: 807,
+            },
+
+            flyover: {
+              abiotic_depletion_fossil: 4365585,
+              acidification: 1625,
+              global_warming: 401919,
+            },
+          };
+
+          let usePhase = {
+            cng: {
+              abiotic_depletion_fossil: 55.9,
+              acidification: 0.00112,
+              global_warming: 0.743,
+            },
+            diesel: {
+              abiotic_depletion_fossil: 42.3,
+              acidification: 0.00234,
+              global_warming: 0.436,
+            },
+            petrol: {
+              abiotic_depletion_fossil: 38,
+              acidification: 0.00393,
+              global_warming: 0.497,
+            },
+          };
+
+          // ToDO: Check with Yasj, sheet got multiple values
+          let rigidPavementImpact = {
+            abiotic_depletion_fossil: 222403,
+            acidification: 3963,
+            global_warming: 31152,
+          };
+
+          // ToDO: Check with Yasj, sheet got multiple values
+          let flexiblePavementImpact = {
+            abiotic_depletion_fossil: 602243,
+            acidification: 4004,
+            global_warming: 23382,
+          };
+
+          let roadInfraMapping = {
+            pipeCulvert: "pipe_culvert",
+            flyover: "flyover",
+            overheadSignage: "overhead_signage",
+            slabCulvert: "slab_culvert",
+            footpath: "footpath",
+          };
+          // Construction. Maintenence & End of Life Phases
+
+          let selectedroadInfra =
+            roadInfraMapping[inputJson.panelSelectRoadInfrastructures];
+
+          let footpath_impact_abiotic_depletion_fossil =
+            y1 * infraImpact["footpath"]["abiotic_depletion_fossil"];
+
+          let footpath_impact_acidification =
+            y1 * infraImpact["footpath"]["acidification"];
+
+          let footpath_impact_global_warming =
+            y1 * infraImpact["footpath"]["global_warming"];
+
+          let slab_culvert_impact_abiotic_depletion_fossil =
+            y2 * y3 * infraImpact["slab_culvert"]["abiotic_depletion_fossil"];
+          let slab_culvert_impact_acidification =
+            y2 * y3 * infraImpact["slab_culvert"]["acidification"];
+          let slab_culvert_impact_global_warming =
+            y2 * y3 * infraImpact["slab_culvert"]["global_warming"];
+
+          let pipe_culvert_impact_abiotic_depletion_fossil =
+            y4 * y5 * infraImpact["pipe_culvert"]["abiotic_depletion_fossil"];
+          let pipe_culvert_impact_acidification =
+            y4 * y5 * infraImpact["pipe_culvert"]["acidification"];
+          let pipe_culvert_impact_global_warming =
+            y4 * y5 * infraImpact["pipe_culvert"]["global_warming"];
+
+          let overhead_signage_impact_abiotic_depletion_fossil =
+            y6 * infraImpact["overhead_signage"]["abiotic_depletion_fossil"];
+          let overhead_signage_impact_acidification =
+            y6 * infraImpact["overhead_signage"]["acidification"];
+          let overhead_signage_impact_global_warming =
+            y6 * infraImpact["overhead_signage"]["global_warming"];
+
+          let flyover_impact_abiotic_depletion_fossil =
+            y7 * y8 * infraImpact["flyover"]["abiotic_depletion_fossil"];
+          let flyover_impact_acidification =
+            y7 * y8 * infraImpact["flyover"]["acidification"];
+          let flyover_impact_global_warming =
+            y7 * y8 * infraImpact["flyover"]["global_warming"];
+
+          logVariableDerivations({
+            footpath_impact_abiotic_depletion_fossil,
+            footpath_impact_acidification,
+            footpath_impact_global_warming,
+            slab_culvert_impact_abiotic_depletion_fossil,
+            slab_culvert_impact_acidification,
+            slab_culvert_impact_global_warming,
+
+            pipe_culvert_impact_abiotic_depletion_fossil,
+            pipe_culvert_impact_acidification,
+            pipe_culvert_impact_global_warming,
+
+            overhead_signage_impact_abiotic_depletion_fossil,
+            overhead_signage_impact_acidification,
+            overhead_signage_impact_global_warming,
+
+            flyover_impact_abiotic_depletion_fossil,
+            flyover_impact_acidification,
+            flyover_impact_global_warming,
+          });
+
+          let irCME_abiotic_depletion_fossil = [
+            z * 0.9 * rigidPavementImpact["abiotic_depletion_fossil"] * dT,
+            vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
+            vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
+            vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
+            vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
+            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          let ifCME_abiotic_depletion_fossil = [
+            z * 0.9 * flexiblePavementImpact["abiotic_depletion_fossil"] * dT,
+            vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
+            vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
+            vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
+            vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
+            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          let irCME_acidification = [
+            z * 0.9 * rigidPavementImpact["acidification"] * dT,
+            vehicle_impact["bus"]["acidification"] * i,
+            vehicle_impact["car"]["acidification"] * j,
+            vehicle_impact["taxi"]["acidification"] * k,
+            vehicle_impact["auto"]["acidification"] * l,
+            eval(`${selectedroadInfra}_impact_acidification`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          let ifCME_acidification = [
+            z * 0.9 * flexiblePavementImpact["acidification"] * dT,
+            vehicle_impact["bus"]["acidification"] * i,
+            vehicle_impact["car"]["acidification"] * j,
+            vehicle_impact["taxi"]["acidification"] * k,
+            vehicle_impact["auto"]["acidification"] * l,
+            eval(`${selectedroadInfra}_impact_acidification`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          let irCME_global_warming = [
+            z * 0.9 * rigidPavementImpact["global_warming"] * dT,
+            vehicle_impact["bus"]["global_warming"] * i,
+            vehicle_impact["car"]["global_warming"] * j,
+            vehicle_impact["taxi"]["global_warming"] * k,
+            vehicle_impact["auto"]["global_warming"] * l,
+            eval(`${selectedroadInfra}_impact_global_warming`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          let ifCME_global_warming = [
+            z * 0.9 * flexiblePavementImpact["global_warming"] * dT,
+            vehicle_impact["bus"]["global_warming"] * i,
+            vehicle_impact["car"]["global_warming"] * j,
+            vehicle_impact["taxi"]["global_warming"] * k,
+            vehicle_impact["auto"]["global_warming"] * l,
+            eval(`${selectedroadInfra}_impact_global_warming`), // Road Infrastructure, ToDo: Check here
+          ];
+
+          logVariableDerivations({
+            irCME_abiotic_depletion_fossil,
+            ifCME_abiotic_depletion_fossil,
+            irCME_acidification,
+            ifCME_acidification,
+            irCME_global_warming,
+            ifCME_global_warming,
+          });
+
+          if (inputJson.roadPavement == "rigid") {
+            let data = [
+              {
+                impactText: `Total Construction Phase Impacts from Rigid Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
+                icon: "fa-fire-alt",
+                unit: ` ${multiplyArrayValues(
+                  irCME_acidification
+                )} in MJ/km/year`,
+              },
+              {
+                impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
+                icon: "fa-cloud",
+                unit: `${multiplyArrayValues(
+                  irCME_acidification
+                )} in kg SO2 eq./km/year`,
+              },
+              {
+                impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
+                icon: "fa-globe",
+                unit: ` ${multiplyArrayValues(
+                  irCME_global_warming
+                )} in kg CO2 eq./km/year`,
+              },
+            ];
+            generateConstructionPhaseResults(data);
+          } else if (inputJson.roadPavement == "flexible") {
+            appendDerivationContent(
+              `Total Construction Phase Impacts from Flexible Pavement & Selected ${
+                inputJson.panelSelectRoadInfrastructures
+              } Infrastructures on Abiotic Depletion Fossil = ${multiplyArrayValues(
+                ifCME_abiotic_depletion_fossil
+              )} in MJ/km/year`,
+              "construction-phase-results-div"
+            );
+            appendDerivationContent(
+              `Total Construction Impacts from Flexible Pavement & Selected ${
+                inputJson.panelSelectRoadInfrastructures
+              } Infrastructures on Acidification = ${multiplyArrayValues(
+                ifCME_acidification
+              )} in kg SO2 eq./km/year`,
+              "construction-phase-results-div"
+            );
+            appendDerivationContent(
+              `Total Construction Impacts from Flexible Pavement & Selected ${
+                inputJson.panelSelectRoadInfrastructures
+              } Infrastructures on Global Warming  = ${multiplyArrayValues(
+                ifCME_global_warming
+              )} in kg CO2 eq./km/year`,
+              "construction-phase-results-div"
+            );
+          }
+        }
+
+        function calculatePercentageOfNumber(percentage, number) {
+          if (typeof percentage !== "number" || typeof number !== "number") {
+            throw new Error(
+              "Both percentage and number should be numeric values."
+            );
+          }
+
+          if (percentage < 0 || percentage > 100) {
+            throw new Error("Percentage should be between 0 and 100.");
+          }
+
+          return Math.ceil((percentage / 100) * number);
+        }
+
+        function calculateVehiclesRequired(passengerCount, busCapacity) {
+          console.log(passengerCount, busCapacity, "Passenger & Capacity");
+
+          // ToDo: busCapacity is coming in decimal
+          // if (
+          //   !Number.isInteger(passengerCount) ||
+          //   !Number.isInteger(busCapacity)
+          // ) {
+          //   throw new Error(
+          //     "Both passenger count and vehicle capacity should be integers."
+          //   );
+          // }
+
+          if (passengerCount < 0 || busCapacity <= 0) {
+            throw new Error(
+              "Passenger count should be a positive integer and vehicle capacity should be a non-zero positive integer."
+            );
+          }
+
+          return Math.ceil(passengerCount / busCapacity);
+        }
+
+        function logVariableDerivations(
+          object,
+          contentType = "basic-derivation"
+        ) {
+          for (var prop in object) {
+            if (object.hasOwnProperty(prop)) {
+              appendDerivationContent(prop + ": " + object[prop], contentType);
+            }
+          }
+        }
+
+        function appendDerivationContent(
+          stringToAppend,
+          contentType = "basic-derivation"
+        ) {
+          let parentDiv = "";
+
+          if (contentType == "construction-phase-results-div") {
+            derivationDiv = document.getElementById(
+              "construction-phase-results-div"
+            );
+          } else {
+            derivationDiv = document.getElementById("derivation-div");
+          }
+
+          var pElement = document.createElement("p");
+          pElement.innerHTML = stringToAppend;
+          derivationDiv.appendChild(pElement);
+        }
+
+        function clearDerivationContent() {
+          let derivationDiv = document.getElementById("derivation-div");
+          derivationDiv.innerHTML = "";
+        }
+
+        function multiplyArrayValues(arr) {
+          if (arr.length === 0) {
+            return 0;
+          }
+
+          let result = arr[0];
+          for (let i = 1; i < arr.length; i++) {
+            result *= arr[i];
+          }
+
+          return result;
+        }
+
+        function generateConstructionPhaseResults(data) {
+          let container = document.getElementById(
+            "construction-phase-results-div"
+          );
+
+          data.forEach((item) => {
+            const impactItem = document.createElement("div");
+            impactItem.classList.add("impact-item");
+
+            const iconContainer = document.createElement("div");
+            iconContainer.classList.add("icon");
+            const icon = document.createElement("i");
+            icon.classList.add("fas", item.icon);
+            iconContainer.appendChild(icon);
+            impactItem.appendChild(iconContainer);
+
+            const impactText = document.createElement("div");
+            impactText.classList.add("impact-text");
+            impactText.textContent = item.impactText;
+            impactItem.appendChild(impactText);
+
+            const unit = document.createElement("div");
+            unit.classList.add("unit");
+            unit.textContent = item.unit;
+            impactItem.appendChild(unit);
+
+            container.appendChild(impactItem);
+          });
+        }
+
+        function startUsePhaseComputation(inputJson) {
+          // Footpath
+          let m = inputJson.lengthOfFootpath;
+
+          // Slab Culvert
+          let n = inputJson.lengthOfFootpath;
+          let o = inputJson.lengthOfFootpath;
+
+          // Pipe Culvert
+          let p = inputJson.lengthOfFootpath;
+          let q = inputJson.lengthOfFootpath;
+
+          // Overhead Signage
+          let r = inputJson.lengthOfFootpath;
+
+          //Flnver
+          let s = inputJson.lengthOfFootpath;
+          let t = inputJson.lengthOfFootpath;
+
+          //No of Lanes
+          let u = inputJson.npOfLanes;
+          let v = inputJson.npOfLanes;
+          let w = inputJson.npOfLanes;
+
+          // Total Distance Tobe Travelled in km per year
+          let dT = inputJson.totalDistanceTravelledPerYear;
+        }
+      </script>
+    </div>
+  </body>
+</html>
