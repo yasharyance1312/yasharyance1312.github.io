@@ -263,39 +263,6 @@
       <div id="results-div">
         <div class="result-containers" id="construction-phase-results-div">
           <div class="title">Construction Impact on the Environment</div>
-
-          <!-- <div class="impact-item">
-            <div class="icon">
-              <i class="fas fa-fire-alt"></i>
-            </div>
-            <div class="impact-text">
-              Total Construction Phase Impacts from Rigid Pavement & Selected
-              Road Infrastructures on Abiotic Depletion Fossil
-            </div>
-            <div class="unit">IRCME in MJ/km/year</div>
-          </div>
-
-          <div class="impact-item">
-            <div class="icon">
-              <i class="fas fa-cloud"></i>
-            </div>
-            <div class="impact-text">
-              Total Construction Impacts from Rigid Pavement & Selected Road
-              Infrastructures on Acidification
-            </div>
-            <div class="unit">IRCME in kg SO2 eq./km/year</div>
-          </div>
-
-          <div class="impact-item">
-            <div class="icon">
-              <i class="fas fa-globe"></i>
-            </div>
-            <div class="impact-text">
-              Total Construction Impacts from Rigid Pavement & Selected Road
-              Infrastructures on Global Warming
-            </div>
-            <div class="unit">IRCME in kg CO2 eq./km/year</div>
-          </div> -->
         </div>
         <div class="result-containers" id="derivation-div">
           <div class="title">Derivation</div>
@@ -305,10 +272,10 @@
       <script type="text/javascript">
         // var derivationDiv = null;
         window.onload = function () {
-          let url = "";
-          url = "https://examples.form.io/example";
-
-          url = "https://yasharyance1312.github.io/form.json";
+          let url = "http://localhost:3001/mia";
+          if (location.hostname == "yasharyance1312.github.io") {
+            url = "https://yasharyance1312.github.io/form.json";
+          }
 
           Formio.createForm(document.getElementById("formio"), url, {
             hooks: {
@@ -637,7 +604,7 @@
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
             vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
-            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           let ifCME_abiotic_depletion_fossil = [
@@ -646,7 +613,7 @@
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
             vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
-            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           let irCME_acidification = [
@@ -655,7 +622,7 @@
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
             vehicle_impact["auto"]["acidification"] * l,
-            eval(`${selectedroadInfra}_impact_acidification`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           let ifCME_acidification = [
@@ -664,7 +631,7 @@
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
             vehicle_impact["auto"]["acidification"] * l,
-            eval(`${selectedroadInfra}_impact_acidification`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           let irCME_global_warming = [
@@ -673,7 +640,7 @@
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
             vehicle_impact["auto"]["global_warming"] * l,
-            eval(`${selectedroadInfra}_impact_global_warming`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_global_warming`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           let ifCME_global_warming = [
@@ -682,7 +649,7 @@
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
             vehicle_impact["auto"]["global_warming"] * l,
-            eval(`${selectedroadInfra}_impact_global_warming`), // Road Infrastructure, ToDo: Check here
+            eval(`${selectedroadInfra}_impact_global_warming`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
           logVariableDerivations({
@@ -699,21 +666,21 @@
               {
                 impactText: `Total Construction Phase Impacts from Rigid Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
                 icon: "fa-fire-alt",
-                unit: ` ${multiplyArrayValues(
+                unit: ` ${sumArrayValues(
                   irCME_acidification
                 )} in MJ/km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
                 icon: "fa-cloud",
-                unit: `${multiplyArrayValues(
+                unit: `${sumArrayValues(
                   irCME_acidification
                 )} in kg SO2 eq./km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
                 icon: "fa-globe",
-                unit: ` ${multiplyArrayValues(
+                unit: ` ${sumArrayValues(
                   irCME_global_warming
                 )} in kg CO2 eq./km/year`,
               },
@@ -723,7 +690,7 @@
             appendDerivationContent(
               `Total Construction Phase Impacts from Flexible Pavement & Selected ${
                 inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Abiotic Depletion Fossil = ${multiplyArrayValues(
+              } Infrastructures on Abiotic Depletion Fossil = ${sumArrayValues(
                 ifCME_abiotic_depletion_fossil
               )} in MJ/km/year`,
               "construction-phase-results-div"
@@ -731,7 +698,7 @@
             appendDerivationContent(
               `Total Construction Impacts from Flexible Pavement & Selected ${
                 inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Acidification = ${multiplyArrayValues(
+              } Infrastructures on Acidification = ${sumArrayValues(
                 ifCME_acidification
               )} in kg SO2 eq./km/year`,
               "construction-phase-results-div"
@@ -739,7 +706,7 @@
             appendDerivationContent(
               `Total Construction Impacts from Flexible Pavement & Selected ${
                 inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Global Warming  = ${multiplyArrayValues(
+              } Infrastructures on Global Warming  = ${sumArrayValues(
                 ifCME_global_warming
               )} in kg CO2 eq./km/year`,
               "construction-phase-results-div"
@@ -818,14 +785,14 @@
           derivationDiv.innerHTML = "";
         }
 
-        function multiplyArrayValues(arr) {
+        function sumArrayValues(arr) {
           if (arr.length === 0) {
             return 0;
           }
 
           let result = arr[0];
           for (let i = 1; i < arr.length; i++) {
-            result *= arr[i];
+            result += arr[i];
           }
 
           return result;
