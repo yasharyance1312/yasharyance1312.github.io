@@ -272,9 +272,46 @@
       <script type="text/javascript">
         // var derivationDiv = null;
         window.onload = function () {
+          var y1 = "";
+          var y2 = "";
+          var y3 = "";
+          var y4 = "";
+          var y5 = "";
+          var y6 = "";
+          var y7 = "";
+          var y8 = "";
+          var z = "";
+
+          var i = "";
+          var j = "";
+          var k = "";
+          var l = "";
+
+          var dT = "";
+          var a1 = "";
+          var b1 = "";
+          var c1 = "";
+          var d1 = "";
+          var e1 = "";
+          var f1 = "";
+          var g1 = "";
+          var h1 = "";
+          var x = "";
+
+          var a2 = "";
+          var b2 = "";
+          var c2 = "";
+          var d2 = "";
+          var e2 = "";
+          var f2 = "";
+          var g2 = "";
+          var h2 = "";
+
+          // loadUseCaseForm();
+          // return;
           let url = "http://localhost:3001/mia";
           if (location.hostname == "yasharyance1312.github.io") {
-            url = "https://yasharyance1312.github.io/form.json";
+            url = "https://yasharyance1312.github.io/mia.json";
           }
 
           Formio.createForm(document.getElementById("formio"), url, {
@@ -295,7 +332,188 @@
           });
         };
 
+        function loadUseCaseForm() {
+          let url = "http://localhost:3001/usephase";
+          if (location.hostname == "yasharyance1312.github.io") {
+            url = "https://yasharyance1312.github.io/usephase.json";
+          }
+
+          Formio.createForm(document.getElementById("formio"), url, {
+            hooks: {
+              beforeSubmit: (submission, next) => {
+                console.log("Before Submit.", submission);
+                if (submission && submission.data) {
+                  console.log(submission.data, "Before Method Call");
+                  startUsePhaseComputation(submission.data);
+                  console.log("After Method Call");
+                }
+              },
+            },
+          });
+        }
+
+        function startUsePhaseComputation(inputJson) {
+          console.log("----------------------------------");
+          console.log(inputJson, "computation started");
+          let m = inputJson.percentOfCNGBus;
+          let n = inputJson.percentOfDieselBus;
+          let o = inputJson.percentOfCNGCar;
+          let p = inputJson.percentOfDieselCar;
+          let q = inputJson.percentOfPetrolCar;
+          let r = inputJson.percentOfCNGTaxi;
+          let s = inputJson.percentOfDieselTaxi;
+          let t = inputJson.percentOfPetrolTaxi;
+          let u = inputJson.percentOfCNGAuto;
+          let v = inputJson.percentOfDieselAuto;
+          let w = inputJson.percentOfPetrolAuto;
+
+          logVariableDerivations({ m, n, o, p, q, r, s, t, u, v, w });
+
+          // let i = 100; // ToDo: Will come from the data point
+          // let j = 100; // ToDo: Will come from the data point
+          // let k = 100; // ToDo: Will come from the data point
+          // let l = 100; // ToDo: Will come from the data point
+          // let dT = 100; // ToDo: Will come from the data point
+
+          // Buses
+          let nCB = calculatePercentageOfNumber(m, i);
+          let nDB = calculatePercentageOfNumber(n, i);
+          logVariableDerivations({ nCB, nDB });
+
+          // cars
+          let nCC = calculatePercentageOfNumber(o, j);
+          let nDC = calculatePercentageOfNumber(p, j);
+          let nPC = calculatePercentageOfNumber(q, j);
+          logVariableDerivations({ nCC, nDC, nPC });
+
+          // Taxi
+          let nCT = calculatePercentageOfNumber(r, k);
+          let nDT = calculatePercentageOfNumber(s, k);
+          let nPT = calculatePercentageOfNumber(t, k);
+          logVariableDerivations({ nCT, nDT, nPT });
+
+          // Auto
+          let nCA = calculatePercentageOfNumber(u, l);
+          let nDA = calculatePercentageOfNumber(v, l);
+          let nPA = calculatePercentageOfNumber(w, l);
+
+          logVariableDerivations({ nCA, nDA, nPA });
+
+          // Computing Diesel Required /////
+          // CNG required for bus (Cb) = (Ncb × dT)/3.16
+          // CNG required for car (Cc) = (Ncc × dT)/24.86
+          // CNG required for taxi (Ct) = (Nct × dT)/22.56
+          // CNG required for auto (Ca) = (Nca × dT)/31.7
+
+          // CNG Required
+          let Cb = computeFuelRequired(nCB, dT, 3.16);
+          let Cc = computeFuelRequired(nCC, dT, 24.86);
+          let Ct = computeFuelRequired(nCT, dT, 22.56);
+          let Ca = computeFuelRequired(nCA, dT, 31.7);
+
+          logVariableDerivations({ Cb, Cc, Ct, Ca });
+
+          // Diesel required for bus (Db) = (Ndb × dT)/4.13
+          // Diesel required for car (Dc) = (Ndc × dT)/15
+          // Diesel required for taxi (Dt) = (Ndt × dT)/13
+          // Diesel required for auto (Da) = (Nda × dT)/28
+          // Diesel Required
+          let Db = computeFuelRequired(nDB, dT, 4.13);
+          let Dc = computeFuelRequired(nDC, dT, 15);
+          let Dt = computeFuelRequired(nDT, dT, 13);
+          let Da = computeFuelRequired(nDA, dT, 28);
+
+          logVariableDerivations({ Db, Dc, Dt, Da });
+
+          // Petrol required for car (Pc) = (Npc × dT)/10
+          // Petrol required for taxi (Pt) = (Npt × dT)/9
+          // Petrol required for auto (Pa) = (Npa × dT)/25/
+
+          // Petrol Required
+          let Pc = computeFuelRequired(nPC, dT, 10);
+          let Pt = computeFuelRequired(nPT, dT, 9);
+          let Pa = computeFuelRequired(nPA, dT, 25);
+
+          logVariableDerivations({ Pc, Pt, Pa });
+
+          let fC = Cb + Cc + Ct + Ca; // in Kg Total CNG required
+          let fD = Db + Dc + Dt + Da; // in litres Total diesel required
+          let fP = Pc + Pt + Pa; // in Kg Total petrol required
+
+          logVariableDerivations({ fC, fD, fP });
+
+          let usePhase = {
+            cng: {
+              abiotic_depletion_fossil: 55.9,
+              acidification: 0.00112,
+              global_warming: 0.743,
+            },
+            diesel: {
+              abiotic_depletion_fossil: 42.3,
+              acidification: 0.00234,
+              global_warming: 0.436,
+            },
+            petrol: {
+              abiotic_depletion_fossil: 38,
+              acidification: 0.00393,
+              global_warming: 0.497,
+            },
+          };
+
+          let iFC_abiotic_depletion_fossil = [
+            fC * usePhase["cng"]["abiotic_depletion_fossil"],
+            fD * usePhase["diesel"]["abiotic_depletion_fossil"],
+            fP * usePhase["petrol"]["abiotic_depletion_fossil"],
+          ];
+
+          let iFC_acidification = [
+            fC * usePhase["cng"]["acidification"],
+            fD * usePhase["diesel"]["acidification"],
+            fP * usePhase["petrol"]["acidification"],
+          ];
+
+          let iFC_global_warming = [
+            fC * usePhase["cng"]["global_warming"],
+            fD * usePhase["diesel"]["global_warming"],
+            fP * usePhase["petrol"]["global_warming"],
+          ];
+
+          logVariableDerivations({
+            iFC_abiotic_depletion_fossil,
+            iFC_acidification,
+            iFC_global_warming,
+          });
+
+          iFC_abiotic_depletion_fossil = sumArrayValues(
+            iFC_abiotic_depletion_fossil
+          );
+          iFC_global_warming = sumArrayValues(iFC_global_warming);
+          iFC_acidification = sumArrayValues(iFC_acidification);
+
+          logVariableDerivations({
+            iFC_abiotic_depletion_fossil,
+            iFC_acidification,
+            iFC_global_warming,
+          });
+
+          let iTE = calculateCO2Emissions(
+            nCB,
+            nDB,
+            nCC,
+            nDC,
+            nPC,
+            nCT,
+            nDT,
+            nPT,
+            nCA,
+            nDA,
+            nPA
+          );
+          logVariableDerivations(iTE);
+        }
+
         function checkMissingKeys(inputJson) {
+          console.log("---------------------------------- Check Missing");
           let array = [
             "distanceCoveredByAuto",
             "distanceCoveredByBus",
@@ -334,47 +552,47 @@
 
         function startComputing(inputJson) {
           // Footpath
-          let y1 = inputJson.lengthOfFootpath;
+          y1 = inputJson.lengthOfFootpath;
 
           // Slab Culvert
-          let y2 = inputJson.lengthOfSlabCulvert; // lengthOfSlabCulvert
-          let y3 = inputJson.noOfSlabCulvert; // noOfSlabCulvert
+          y2 = inputJson.lengthOfSlabCulvert; // lengthOfSlabCulvert
+          y3 = inputJson.noOfSlabCulvert; // noOfSlabCulvert
 
           // Pipe Culvert
-          let y4 = inputJson.diameterOfPipeCulvert;
-          let y5 = inputJson.noOfPipeCulvert;
+          y4 = inputJson.diameterOfPipeCulvert;
+          y5 = inputJson.noOfPipeCulvert;
 
           // Overhead Signage
-          let y6 = inputJson.noOfOverheadSignage;
+          y6 = inputJson.noOfOverheadSignage;
 
           //Flyover
-          let y7 = inputJson.lengthOfFlyover;
-          let y8 = inputJson.noOfFlyover;
+          y7 = inputJson.lengthOfFlyover;
+          y8 = inputJson.noOfFlyover;
 
           //No of Lanes
-          let z = inputJson.npOfLanes;
+          z = inputJson.npOfLanes;
 
           // Total Distance Tobe Travelled in km per year
-          let dT = inputJson.totalDistanceTravelledPerYear;
+          dT = inputJson.totalDistanceTravelledPerYear;
 
           logVariableDerivations({ y1, y2, y3, y4, y5, y6, y7, y8, z, dT });
           // % of distance covered by vehicle
-          let a1 = inputJson.distanceCoveredByBus;
-          let b1 = inputJson.distanceCoveredByCar;
-          let c1 = inputJson.distanceCoveredByTaxi;
-          let d1 = inputJson.distanceCoveredByAuto;
+          a1 = inputJson.distanceCoveredByBus;
+          b1 = inputJson.distanceCoveredByCar;
+          c1 = inputJson.distanceCoveredByTaxi;
+          d1 = inputJson.distanceCoveredByAuto;
 
           // Distance Travelled by Bus
-          let e1 = calculatePercentageOfNumber(a1, dT);
+          e1 = calculatePercentageOfNumber(a1, dT);
 
           // Distance Travelled by Car
-          let f1 = calculatePercentageOfNumber(b1, dT);
+          f1 = calculatePercentageOfNumber(b1, dT);
 
           // Distance Travelled by Taxi
-          let g1 = calculatePercentageOfNumber(c1, dT);
+          g1 = calculatePercentageOfNumber(c1, dT);
 
           // Distance Travelled by Auto
-          let h1 = calculatePercentageOfNumber(d1, dT);
+          h1 = calculatePercentageOfNumber(d1, dT);
           logVariableDerivations({ a1, b1, c1, d1, e1, f1, g1, h1 });
           console.log(
             `Distance Travelled By Bus: ${e1} Car: ${f1} Taxi: ${g1} Auto: ${h1}`
@@ -389,24 +607,24 @@
           }
 
           // No of passengers per year
-          let x = inputJson.noOfPassengersPerYear;
+          x = inputJson.noOfPassengersPerYear;
 
           // Travelling from Vehicles
-          let a2 = inputJson.passengerTravellingFromBus;
-          let b2 = inputJson.passengerTravellingFromCar;
-          let c2 = inputJson.passengerTravellingFromTaxi;
-          let d2 = inputJson.passengerTravellingFromAuto;
+          a2 = inputJson.passengerTravellingFromBus;
+          b2 = inputJson.passengerTravellingFromCar;
+          c2 = inputJson.passengerTravellingFromTaxi;
+          d2 = inputJson.passengerTravellingFromAuto;
           // Passenger travelling by Bus
-          let e2 = calculatePercentageOfNumber(a2, x);
+          e2 = calculatePercentageOfNumber(a2, x);
 
           // Passenger travelling by Car
-          let f2 = calculatePercentageOfNumber(b2, x);
+          f2 = calculatePercentageOfNumber(b2, x);
 
           // Passenger travelling by Taxi
-          let g2 = calculatePercentageOfNumber(c2, x);
+          g2 = calculatePercentageOfNumber(c2, x);
 
           // Passenger travelling by Auto
-          let h2 = calculatePercentageOfNumber(d2, x);
+          h2 = calculatePercentageOfNumber(d2, x);
           logVariableDerivations({ a2, b2, c2, d2, e2, f2, g2, h2 });
 
           console.log(
@@ -434,10 +652,10 @@
           });
 
           // No. of Vehicles required
-          let i = calculateVehiclesRequired(e2, passengesPerBus);
-          let j = calculateVehiclesRequired(f2, passengersPerCar);
-          let k = calculateVehiclesRequired(g2, passengersPerTaxi);
-          let l = calculateVehiclesRequired(h2, passengersPerAuto);
+          i = calculateVehiclesRequired(e2, passengesPerBus);
+          j = calculateVehiclesRequired(f2, passengersPerCar);
+          k = calculateVehiclesRequired(g2, passengersPerTaxi);
+          l = calculateVehiclesRequired(h2, passengersPerAuto);
 
           logVariableDerivations({ i, j, k, l });
 
@@ -534,6 +752,7 @@
             overheadSignage: "overhead_signage",
             slabCulvert: "slab_culvert",
             footpath: "footpath",
+            // undefined,
           };
           // Construction. Maintenence & End of Life Phases
 
@@ -667,7 +886,7 @@
                 impactText: `Total Construction Phase Impacts from Rigid Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
                 icon: "fa-fire-alt",
                 unit: ` ${sumArrayValues(
-                  irCME_acidification
+                  irCME_abiotic_depletion_fossil
                 )} in MJ/km/year`,
               },
               {
@@ -712,6 +931,7 @@
               "construction-phase-results-div"
             );
           }
+          loadUseCaseForm();
         }
 
         function calculatePercentageOfNumber(percentage, number) {
@@ -754,6 +974,8 @@
           object,
           contentType = "basic-derivation"
         ) {
+          console.log("Breaking in here", object);
+
           for (var prop in object) {
             if (object.hasOwnProperty(prop)) {
               appendDerivationContent(prop + ": " + object[prop], contentType);
@@ -828,33 +1050,69 @@
           });
         }
 
-        function startUsePhaseComputation(inputJson) {
-          // Footpath
-          let m = inputJson.lengthOfFootpath;
+        function computeFuelRequired(vCount, distanceTravelled, constant) {
+          // Check if the input values are valid numbers
+          if (
+            typeof vCount !== "number" ||
+            typeof distanceTravelled !== "number" ||
+            typeof constant !== "number"
+          ) {
+            throw new Error("All input parameters must be numbers.");
+          }
 
-          // Slab Culvert
-          let n = inputJson.lengthOfFootpath;
-          let o = inputJson.lengthOfFootpath;
+          // Check if the constant value is non-zero
+          if (constant === 0) {
+            throw new Error("The constant value cannot be zero.");
+          }
 
-          // Pipe Culvert
-          let p = inputJson.lengthOfFootpath;
-          let q = inputJson.lengthOfFootpath;
-
-          // Overhead Signage
-          let r = inputJson.lengthOfFootpath;
-
-          //Flnver
-          let s = inputJson.lengthOfFootpath;
-          let t = inputJson.lengthOfFootpath;
-
-          //No of Lanes
-          let u = inputJson.npOfLanes;
-          let v = inputJson.npOfLanes;
-          let w = inputJson.npOfLanes;
-
-          // Total Distance Tobe Travelled in km per year
-          let dT = inputJson.totalDistanceTravelledPerYear;
+          const Cb = (vCount * distanceTravelled) / constant;
+          return Cb;
         }
+
+        function calculateCO2Emissions(
+          Ncb,
+          Ndb,
+          Ncc,
+          Ndc,
+          Npc,
+          Nct,
+          Ndt,
+          Npt,
+          Nca,
+          Nda,
+          Npa
+        ) {
+          const Tcb = (Ncb * 492.9) / 1000;
+          const Tdb = (Ndb * 638.5) / 1000;
+          const Tcc = (Ncc * 126.9) / 1000;
+          const Tdc = (Ndc * 108) / 1000;
+          const Tpc = (Npc * 95.63) / 1000;
+          const Tct = (Nct * 126.9) / 1000;
+          const Tdt = (Ndt * 108) / 1000;
+          const Tpt = (Npt * 95.63) / 1000;
+          const Tca = (Nca * 71.5) / 1000;
+          const Tda = (Nda * 441.3) / 1000;
+          const Tpa = (Npa * 294.8) / 1000;
+
+          const ITE =
+            Tcb + Tdb + Tcc + Tdc + Tpc + Tct + Tdt + Tpt + Tca + Tda + Tpa;
+          logVariableDerivations({
+            Tcb,
+            Tdb,
+            Tcc,
+            Tdc,
+            Tpc,
+            Tct,
+            Tdt,
+            Tpt,
+            Tca,
+            Tda,
+            Tpa,
+          });
+          return ITE;
+        }
+
+        // UsePhase Methods
       </script>
     </div>
   </body>
