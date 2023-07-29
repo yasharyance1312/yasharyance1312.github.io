@@ -264,6 +264,10 @@
         <div class="result-containers" id="construction-phase-results-div">
           <div class="title">Construction Impact on the Environment</div>
         </div>
+
+        <div class="result-containers" id="use-phase-results-div">
+          <div class="title">Use Phase Impact on the Environment</div>
+        </div>
         <div class="result-containers" id="derivation-div">
           <div class="title">Derivation</div>
         </div>
@@ -509,7 +513,25 @@
             nDA,
             nPA
           );
-          logVariableDerivations(iTE);
+
+          let data = [
+            {
+              impactText: `Total Use Phase Impacts on Abiotic Depletion Fossil`,
+              icon: "fa-fire-alt",
+              unit: ` ${iFC_abiotic_depletion_fossil} in MJ/km/year`,
+            },
+            {
+              impactText: `Total Use Phase Impacts on Acidification`,
+              icon: "fa-cloud",
+              unit: `${iFC_acidification} in kg SO2 eq./km/year`,
+            },
+            {
+              impactText: `Total Use Phase Impacts on Global Warming`,
+              icon: "fa-globe",
+              unit: ` ${iFC_global_warming + iTE} in kg CO2 eq./km/year`,
+            },
+          ];
+          generateConstructionPhaseResults(data, "use-phase-results-div");
         }
 
         function checkMissingKeys(inputJson) {
@@ -639,23 +661,46 @@
             );
           }
 
-          let passengesPerBus = 53;
-          let passengersPerCar = 2.5;
-          let passengersPerTaxi = 2;
-          let passengersPerAuto = 1.5;
-
-          logVariableDerivations({
-            passengesPerBus,
-            passengersPerCar,
-            passengersPerTaxi,
-            passengersPerAuto,
-          });
+          // let passengesPerBus = 53;
+          // let passengersPerCar = 2.5;
+          // let passengersPerTaxi = 2;
+          // let passengersPerAuto = 1.5;
 
           // No. of Vehicles required
-          i = calculateVehiclesRequired(e2, passengesPerBus);
-          j = calculateVehiclesRequired(f2, passengersPerCar);
-          k = calculateVehiclesRequired(g2, passengersPerTaxi);
-          l = calculateVehiclesRequired(h2, passengersPerAuto);
+          i = calculateVehiclesRequired(
+            "buses",
+            e1,
+            e2,
+            f1,
+            f2,
+            g1,
+            g2,
+            h1,
+            h2
+          );
+          j = calculateVehiclesRequired("cars", e1, e2, f1, f2, g1, g2, h1, h2);
+          k = calculateVehiclesRequired(
+            "taxis",
+            e1,
+            e2,
+            f1,
+            f2,
+            g1,
+            g2,
+            h1,
+            h2
+          );
+          l = calculateVehiclesRequired(
+            "autos",
+            e1,
+            e2,
+            f1,
+            f2,
+            g1,
+            g2,
+            h1,
+            h2
+          );
 
           logVariableDerivations({ i, j, k, l });
 
@@ -906,6 +951,7 @@
             ];
             generateConstructionPhaseResults(data);
           } else if (inputJson.roadPavement == "flexible") {
+            // ToDO: Changes for Flexbile Payvement
             appendDerivationContent(
               `Total Construction Phase Impacts from Flexible Pavement & Selected ${
                 inputJson.panelSelectRoadInfrastructures
@@ -948,26 +994,86 @@
           return Math.ceil((percentage / 100) * number);
         }
 
-        function calculateVehiclesRequired(passengerCount, busCapacity) {
-          console.log(passengerCount, busCapacity, "Passenger & Capacity");
+        // function calculateVehiclesRequired(passengerCount, busCapacity) {
+        //   console.log(passengerCount, busCapacity, "Passenger & Capacity");
 
-          // ToDo: busCapacity is coming in decimal
-          // if (
-          //   !Number.isInteger(passengerCount) ||
-          //   !Number.isInteger(busCapacity)
-          // ) {
-          //   throw new Error(
-          //     "Both passenger count and vehicle capacity should be integers."
-          //   );
-          // }
+        //   // ToDo: busCapacity is coming in decimal
+        //   // if (
+        //   //   !Number.isInteger(passengerCount) ||
+        //   //   !Number.isInteger(busCapacity)
+        //   // ) {
+        //   //   throw new Error(
+        //   //     "Both passenger count and vehicle capacity should be integers."
+        //   //   );
+        //   // }
 
-          if (passengerCount < 0 || busCapacity <= 0) {
-            throw new Error(
-              "Passenger count should be a positive integer and vehicle capacity should be a non-zero positive integer."
-            );
+        //   if (passengerCount < 0 || busCapacity <= 0) {
+        //     throw new Error(
+        //       "Passenger count should be a positive integer and vehicle capacity should be a non-zero positive integer."
+        //     );
+        //   }
+
+        //   return Math.ceil(passengerCount / busCapacity);
+        // }
+
+        function calculateVehiclesRequired(
+          vehicleName,
+          e1,
+          e2,
+          f1,
+          f2,
+          g1,
+          g2,
+          h1,
+          h2
+        ) {
+          const daysInYear = 365;
+          const passengersPerBus = 53;
+          const passengersPerCar = 2.5;
+          const passengersPerTaxi = 2;
+          const passengersPerAuto = 1.5;
+
+          // logVariableDerivations({
+          //   passengersPerBus,
+          //   passengersPerCar,
+          //   passengersPerTaxi,
+          //   passengersPerAuto,
+          // });
+
+          switch (vehicleName) {
+            case "buses":
+              const busesNeeded =
+                e2 / passengersPerBus / (e1 / (10 * 18 * daysInYear));
+              console.log(e2, e1);
+              return Math.ceil(busesNeeded);
+            case "cars":
+              const carsNeeded =
+                f2 / passengersPerCar / (f1 / (15 * 3 * daysInYear));
+              console.log(carsNeeded, "CarsNeeded");
+              console.log(passengersPerCar, "passengersPerCar");
+              console.log(f2, "f2");
+              console.log(f1, "f1");
+              console.log(f2 / passengersPerCar, "(f2 / passengersPerCar)");
+              console.log(15 * 3 * daysInYear, "(15 * 3 * daysInYear)");
+              console.log(
+                f1 / (15 * 3 * daysInYear),
+                "(f1 / (15 * 3 * daysInYear)"
+              );
+
+              return Math.ceil(carsNeeded);
+            case "taxis":
+              const taxisNeeded =
+                g2 / passengersPerTaxi / (g1 / (12 * 6 * daysInYear));
+              return Math.ceil(taxisNeeded);
+            case "autos":
+              const autosNeeded =
+                h2 / passengersPerAuto / (h1 / (10 * 7 * daysInYear));
+              return Math.ceil(autosNeeded);
+            default:
+              throw new Error(
+                "Invalid vehicle name. Supported vehicles: buses, cars, taxis, autos"
+              );
           }
-
-          return Math.ceil(passengerCount / busCapacity);
         }
 
         function logVariableDerivations(
@@ -1020,10 +1126,11 @@
           return result;
         }
 
-        function generateConstructionPhaseResults(data) {
-          let container = document.getElementById(
-            "construction-phase-results-div"
-          );
+        function generateConstructionPhaseResults(
+          data,
+          divID = "construction-phase-results-div"
+        ) {
+          let container = document.getElementById(divID);
 
           data.forEach((item) => {
             const impactItem = document.createElement("div");
@@ -1094,8 +1201,6 @@
           const Tda = (Nda * 441.3) / 1000;
           const Tpa = (Npa * 294.8) / 1000;
 
-          const ITE =
-            Tcb + Tdb + Tcc + Tdc + Tpc + Tct + Tdt + Tpt + Tca + Tda + Tpa;
           logVariableDerivations({
             Tcb,
             Tdb,
@@ -1109,6 +1214,10 @@
             Tda,
             Tpa,
           });
+          const ITE =
+            Tcb + Tdb + Tcc + Tdc + Tpc + Tct + Tdt + Tpt + Tca + Tda + Tpa;
+
+          logVariableDerivations({ ITE });
           return ITE;
         }
 

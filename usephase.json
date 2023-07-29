@@ -1,0 +1,480 @@
+{
+    "_id": "64b40cb68e552b056b3bfb1b",
+    "title": "use_phase",
+    "name": "usePhase",
+    "path": "usephase",
+    "type": "resource",
+    "display": "form",
+    "tags": [
+        "common"
+    ],
+    "submissionAccess": [
+        {
+            "type": "create_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "read_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "update_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        },
+        {
+            "type": "delete_own",
+            "roles": [
+                "64a9bee43630df39ca9ea115"
+            ]
+        }
+    ],
+    "owner": "64a9bef23630df39ca9ea157",
+    "components": [
+        {
+            "clearOnHide": false,
+            "key": "panel",
+            "input": false,
+            "title": "Use Phase",
+            "theme": "default",
+            "tableView": false,
+            "components": [
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of CNG Bus",
+                    "key": "percentOfCNGBus",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of diesel Bus",
+                    "key": "percentOfDieselBus",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of CNG car",
+                    "key": "percentOfCNGCar",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of diesel car",
+                    "key": "percentOfDieselCar",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of petrol car",
+                    "key": "percentOfPetrolCar",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of CNG taxi",
+                    "key": "percentOfCNGTaxi",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of diesel Taxi",
+                    "key": "percentOfDieselTaxi",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of petrol Taxi",
+                    "key": "percentOfPetrolTaxi",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of CNG auto",
+                    "key": "percentOfCNGAuto",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of Diesel auto",
+                    "key": "percentOfDieselAuto",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                },
+                {
+                    "autofocus": false,
+                    "input": true,
+                    "tableView": true,
+                    "inputType": "number",
+                    "label": "Enter % of Petrol auto",
+                    "key": "percentOfPetrolAuto",
+                    "placeholder": "",
+                    "prefix": "",
+                    "suffix": "",
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "validate": {
+                        "required": false,
+                        "min": "",
+                        "max": "",
+                        "step": "any",
+                        "integer": "",
+                        "multiple": "",
+                        "custom": ""
+                    },
+                    "type": "number",
+                    "labelPosition": "top",
+                    "tags": [],
+                    "conditional": {
+                        "show": "",
+                        "when": null,
+                        "eq": ""
+                    },
+                    "properties": {},
+                    "lockKey": true
+                }
+            ],
+            "type": "panel",
+            "breadcrumb": "default",
+            "hideLabel": false,
+            "tags": [],
+            "conditional": {
+                "show": "",
+                "when": null,
+                "eq": ""
+            },
+            "properties": {}
+        },
+        {
+            "autofocus": false,
+            "input": true,
+            "label": "Submit",
+            "tableView": false,
+            "key": "panelSubmit",
+            "size": "md",
+            "leftIcon": "",
+            "rightIcon": "",
+            "block": false,
+            "action": "submit",
+            "disableOnInvalid": false,
+            "theme": "primary",
+            "type": "button",
+            "tags": [],
+            "conditional": {
+                "show": "",
+                "when": null,
+                "eq": ""
+            },
+            "properties": {}
+        }
+    ],
+    "access": [
+        {
+            "type": "read_all",
+            "roles": [
+                "64a9bee43630df39ca9ea111",
+                "64a9bee43630df39ca9ea115",
+                "64a9bee43630df39ca9ea119"
+            ]
+        }
+    ],
+    "created": "2023-07-16T15:28:54.482Z",
+    "modified": "2023-07-26T18:51:34.180Z",
+    "machineName": "usePhase"
+}
