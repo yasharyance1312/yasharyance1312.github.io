@@ -711,22 +711,22 @@
         function startComputing(inputJson) {
           roadPavement = inputJson.roadPavement;
           // Footpath
-          y1 = inputJson.lengthOfFootpath;
+          y1 = inputJson.lengthOfFootpath || 0;
 
           // Slab Culvert
-          y2 = inputJson.lengthOfSlabCulvert; // lengthOfSlabCulvert
-          y3 = inputJson.noOfSlabCulvert; // noOfSlabCulvert
+          y2 = inputJson.lengthOfSlabCulvert || 0; // lengthOfSlabCulvert
+          y3 = inputJson.noOfSlabCulvert || 0; // noOfSlabCulvert
 
           // Pipe Culvert
-          y4 = inputJson.diameterOfPipeCulvert;
-          y5 = inputJson.noOfPipeCulvert;
+          y4 = inputJson.diameterOfPipeCulvert || 0;
+          y5 = inputJson.noOfPipeCulvert || 0;
 
           // Overhead Signage
-          y6 = inputJson.noOfOverheadSignage;
+          y6 = inputJson.noOfOverheadSignage || 0;
 
           //Flyover
-          y7 = inputJson.lengthOfFlyover;
-          y8 = inputJson.noOfFlyover;
+          y7 = inputJson.lengthOfFlyover || 0;
+          y8 = inputJson.noOfFlyover || 0;
 
           //No of Lanes
           z = inputJson.npOfLanes;
@@ -934,16 +934,15 @@
             overheadSignage: "overhead_signage",
             slabCulvert: "slab_culvert",
             footpath: "footpath",
-            // undefined,
+            undefined,
           };
-          // Construction. Maintenence & End of Life Phases
 
+          // Construction. Maintenence & End of Life Phases
           let selectedroadInfra =
             roadInfraMapping[inputJson.panelSelectRoadInfrastructures];
 
           let footpath_impact_abiotic_depletion_fossil =
             y1 * infraImpact["footpath"]["abiotic_depletion_fossil"];
-
           let footpath_impact_acidification =
             y1 * infraImpact["footpath"]["acidification"];
 
@@ -1005,7 +1004,9 @@
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
             vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
-            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`)
+              : 0,
           ];
 
           ifCME_abiotic_depletion_fossil = [
@@ -1014,7 +1015,9 @@
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
             vehicle_impact["auto"]["abiotic_depletion_fossil"] * l,
-            eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`)
+              : 0, // Road Infrastructure, ToDo: Check here
           ];
 
           irCME_acidification = [
@@ -1023,7 +1026,9 @@
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
             vehicle_impact["auto"]["acidification"] * l,
-            eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_acidification`)
+              : 0, // Road Infrastructure, ToDo: Check here
           ];
 
           ifCME_acidification = [
@@ -1032,7 +1037,9 @@
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
             vehicle_impact["auto"]["acidification"] * l,
-            eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_acidification`)
+              : 0, // Road Infrastructure, ToDo: Check here
           ];
 
           irCME_global_warming = [
@@ -1041,7 +1048,9 @@
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
             vehicle_impact["auto"]["global_warming"] * l,
-            eval(`${selectedroadInfra}_impact_global_warming`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_global_warming`)
+              : 0, // Road Infrastructure, ToDo: Check here
           ];
 
           ifCME_global_warming = [
@@ -1050,7 +1059,9 @@
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
             vehicle_impact["auto"]["global_warming"] * l,
-            eval(`${selectedroadInfra}_impact_global_warming`) || 1, // Road Infrastructure, ToDo: Check here
+            selectedroadInfra
+              ? eval(`${selectedroadInfra}_impact_global_warming`)
+              : 0, // Road Infrastructure, ToDo: Check here
           ];
 
           logVariableDerivations({
@@ -1098,19 +1109,39 @@
             ];
             generateAndDisplayResults(data);
           } else if (roadPavement == "flexible") {
-            // ToDO: Changes for Flexbile Payvement
-            appendDerivationContent(
-              `Total Construction Phase Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil = ${ifCME_abiotic_depletion_fossil} in MJ/km/year`,
-              "construction-phase-results-div"
-            );
-            appendDerivationContent(
-              `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification = ${ifCME_acidification} in kg SO2 eq./km/year`,
-              "construction-phase-results-div"
-            );
-            appendDerivationContent(
-              `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming  = ${ifCME_global_warming} in kg CO2 eq./km/year`,
-              "construction-phase-results-div"
-            );
+            // // ToDO: Changes for Flexbile Payvement
+            // appendDerivationContent(
+            //   ` in MJ/km/year`,
+            //   "construction-phase-results-div"
+            // );
+            // appendDerivationContent(
+            //   `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification = ${ifCME_acidification} in kg SO2 eq./km/year`,
+            //   "construction-phase-results-div"
+            // );
+            // appendDerivationContent(
+            //   `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming  = ${ifCME_global_warming} in kg CO2 eq./km/year`,
+            //   "construction-phase-results-div"
+            // );
+
+            let data = [
+              {
+                impactText: `Total Construction Phase Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
+                icon: "fa-fire-alt",
+                unit: ` ${ifCME_abiotic_depletion_fossil} in MJ/km/year`,
+              },
+              {
+                impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
+                icon: "fa-cloud",
+                unit: `${ifCME_acidification} in kg SO2 eq./km/year`,
+              },
+              {
+                impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
+                icon: "fa-globe",
+                unit: ` ${ifCME_global_warming} in kg CO2 eq./km/year`,
+              },
+            ];
+
+            generateAndDisplayResults(data);
           }
           loadUseCaseForm();
         }
@@ -1360,8 +1391,7 @@
         }
 
         function generateOverallResults(results_title, impactItems) {
-          document.getElementById("overall-results-div").style.display =
-            "flex";
+          document.getElementById("overall-results-div").style.display = "flex";
 
           document.getElementById("overall-results-header").innerHTML =
             results_title;
