@@ -34,6 +34,63 @@
         padding: 0px;
       }
 
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1; /* Take the full available space in the container */
+      }
+
+      .row-wrapper {
+        max-width: 600px; /* Limit the width of the row */
+        width: 100%;
+      }
+
+      .overall-impact-item {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+        min-height: 250px; /* Set a minimum height for cards */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      h1 {
+        font-weight: normal; /* Reduce the heading font-weight */
+        font-size: 1.5rem; /* Adjust the heading font-size */
+        margin: 0; /* Remove default margin */
+        margin-bottom: 20px; /* Add some spacing below the heading */
+      }
+
+      .overall-impact-item h2 {
+        margin-top: 0;
+        font-size: 1.2rem; /* Adjust the card heading font-size */
+        font-weight: bold;
+        color: #333;
+      }
+
+      .highlight {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #428bca; /* Adjust the highlight color */
+      }
+
+      .overall-results-icon {
+        /* font-size: 3.5rem; Adjust icon size */
+        color: #ff6f00; /* Orange color */
+      }
+
+      /* Simple animation on hover */
+      .overall-impact-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
       /* Set font and spacing */
       body {
         font-family: Arial, sans-serif;
@@ -249,11 +306,11 @@
           <i class="fas fa-cogs logo-icon"></i>
           Concept of Mobility Impact Analyser (MIA) Tool
         </h1>
-        <!-- <ul class="menu">
-        <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
-        <li class="menu-item"><a href="#" class="menu-link">About</a></li>
-        <li class="menu-item"><a href="#" class="menu-link">Contact</a></li>
-      </ul> -->
+        <ul class="menu">
+          <!-- <li class="menu-item"><a href="#" class="menu-link">Road</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">Metro</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">Contact</a></li> -->
+        </ul>
       </nav>
     </div>
 
@@ -261,6 +318,15 @@
       <div id="formio"></div>
 
       <div id="results-div">
+        <div class="result-containers container mt-4">
+          <h1 class="text-center" id="overall-results-header">
+            <!-- Overall Impacts from Road Transportation Having Flexible Pavement -->
+          </h1>
+          <div class="row-wrapper">
+            <div class="row"></div>
+          </div>
+        </div>
+
         <div class="result-containers" id="construction-phase-results-div">
           <div class="title">Construction Impact on the Environment</div>
         </div>
@@ -276,6 +342,7 @@
       <script type="text/javascript">
         // var derivationDiv = null;
         window.onload = function () {
+          var roadPavement = "";
           var y1 = "";
           var y2 = "";
           var y3 = "";
@@ -310,6 +377,18 @@
           var f2 = "";
           var g2 = "";
           var h2 = "";
+
+          var irCME_abiotic_depletion_fossil = [];
+
+          var ifCME_abiotic_depletion_fossil = [];
+
+          var irCME_acidification = [];
+
+          var ifCME_acidification = [];
+
+          var irCME_global_warming = [];
+
+          var ifCME_global_warming = [];
 
           // loadUseCaseForm();
           // return;
@@ -514,7 +593,7 @@
             nPA
           );
 
-          let data = [
+          let use_phase_results_data = [
             {
               impactText: `Total Use Phase Impacts on Abiotic Depletion Fossil`,
               icon: "fa-fire-alt",
@@ -531,7 +610,54 @@
               unit: ` ${iFC_global_warming + iTE} in kg CO2 eq./km/year`,
             },
           ];
-          generateConstructionPhaseResults(data, "use-phase-results-div");
+          generateAndDisplayResults(
+            use_phase_results_data,
+            "use-phase-results-div"
+          );
+
+          let iCME_abiotic_depletion_fossil = 0;
+          let iCME_acidification = 0;
+          let iCME_global_warming = 0;
+          let results_title = "Overall Impacts from Road Transportation";
+
+          if (roadPavement == "rigid") {
+            iCME_abiotic_depletion_fossil = irCME_abiotic_depletion_fossil;
+            iCME_acidification = irCME_acidification;
+            iCME_global_warming = iCME_global_warming;
+            results_title =
+              "Overall Impacts from Road Transportation Having Rigid Pavement";
+          } else {
+            iCME_abiotic_depletion_fossil = ifCME_abiotic_depletion_fossil;
+            iCME_acidification = ifCME_acidification;
+            iCME_global_warming = ifCME_global_warming;
+            results_title =
+              "Overall Impacts from Road Transportation Having Flexible Pavement";
+          }
+
+          let overall_impact_data = [
+            {
+              icon: "bus",
+              title: `Overall Impacts on Abiotic Depletion Fossil `,
+              description: ` ${
+                iCME_abiotic_depletion_fossil + iFC_abiotic_depletion_fossil
+              } in MJ/km/year`,
+            },
+            {
+              icon: "cloud",
+              title: `Overall Impacts on Acidification`,
+              description: `${
+                iCME_acidification + iFC_acidification
+              } in kg SO2 eq./km/year`,
+            },
+            {
+              icon: "globe",
+              title: `Overall Impacts on Global Warming`,
+              description: ` ${
+                iCME_global_warming + iFC_global_warming + iTE
+              } in kg CO2 eq./km/year`,
+            },
+          ];
+          generateOverallResults(results_title, overall_impact_data);
         }
 
         function checkMissingKeys(inputJson) {
@@ -573,6 +699,7 @@
         }
 
         function startComputing(inputJson) {
+          roadPavement = inputJson.roadPavement;
           // Footpath
           y1 = inputJson.lengthOfFootpath;
 
@@ -862,7 +989,7 @@
             flyover_impact_global_warming,
           });
 
-          let irCME_abiotic_depletion_fossil = [
+          irCME_abiotic_depletion_fossil = [
             z * 0.9 * rigidPavementImpact["abiotic_depletion_fossil"] * dT,
             vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
@@ -871,7 +998,7 @@
             eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
-          let ifCME_abiotic_depletion_fossil = [
+          ifCME_abiotic_depletion_fossil = [
             z * 0.9 * flexiblePavementImpact["abiotic_depletion_fossil"] * dT,
             vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
@@ -880,7 +1007,7 @@
             eval(`${selectedroadInfra}_impact_abiotic_depletion_fossil`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
-          let irCME_acidification = [
+          irCME_acidification = [
             z * 0.9 * rigidPavementImpact["acidification"] * dT,
             vehicle_impact["bus"]["acidification"] * i,
             vehicle_impact["car"]["acidification"] * j,
@@ -889,7 +1016,7 @@
             eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
-          let ifCME_acidification = [
+          ifCME_acidification = [
             z * 0.9 * flexiblePavementImpact["acidification"] * dT,
             vehicle_impact["bus"]["acidification"] * i,
             vehicle_impact["car"]["acidification"] * j,
@@ -898,7 +1025,7 @@
             eval(`${selectedroadInfra}_impact_acidification`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
-          let irCME_global_warming = [
+          irCME_global_warming = [
             z * 0.9 * rigidPavementImpact["global_warming"] * dT,
             vehicle_impact["bus"]["global_warming"] * i,
             vehicle_impact["car"]["global_warming"] * j,
@@ -907,7 +1034,7 @@
             eval(`${selectedroadInfra}_impact_global_warming`) || 1, // Road Infrastructure, ToDo: Check here
           ];
 
-          let ifCME_global_warming = [
+          ifCME_global_warming = [
             z * 0.9 * flexiblePavementImpact["global_warming"] * dT,
             vehicle_impact["bus"]["global_warming"] * i,
             vehicle_impact["car"]["global_warming"] * j,
@@ -925,55 +1052,53 @@
             ifCME_global_warming,
           });
 
-          if (inputJson.roadPavement == "rigid") {
+          irCME_abiotic_depletion_fossil = sumArrayValues(
+            irCME_abiotic_depletion_fossil
+          );
+
+          ifCME_abiotic_depletion_fossil = sumArrayValues(
+            ifCME_abiotic_depletion_fossil
+          );
+
+          irCME_acidification = sumArrayValues(irCME_acidification);
+
+          ifCME_acidification = sumArrayValues(ifCME_acidification);
+
+          irCME_global_warming = sumArrayValues(irCME_global_warming);
+
+          ifCME_global_warming = sumArrayValues(ifCME_global_warming);
+
+          if (roadPavement == "rigid") {
             let data = [
               {
                 impactText: `Total Construction Phase Impacts from Rigid Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
                 icon: "fa-fire-alt",
-                unit: ` ${sumArrayValues(
-                  irCME_abiotic_depletion_fossil
-                )} in MJ/km/year`,
+                unit: ` ${irCME_abiotic_depletion_fossil} in MJ/km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
                 icon: "fa-cloud",
-                unit: `${sumArrayValues(
-                  irCME_acidification
-                )} in kg SO2 eq./km/year`,
+                unit: `${irCME_acidification} in kg SO2 eq./km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
                 icon: "fa-globe",
-                unit: ` ${sumArrayValues(
-                  irCME_global_warming
-                )} in kg CO2 eq./km/year`,
+                unit: ` ${irCME_global_warming} in kg CO2 eq./km/year`,
               },
             ];
-            generateConstructionPhaseResults(data);
-          } else if (inputJson.roadPavement == "flexible") {
+            generateAndDisplayResults(data);
+          } else if (roadPavement == "flexible") {
             // ToDO: Changes for Flexbile Payvement
             appendDerivationContent(
-              `Total Construction Phase Impacts from Flexible Pavement & Selected ${
-                inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Abiotic Depletion Fossil = ${sumArrayValues(
-                ifCME_abiotic_depletion_fossil
-              )} in MJ/km/year`,
+              `Total Construction Phase Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil = ${ifCME_abiotic_depletion_fossil} in MJ/km/year`,
               "construction-phase-results-div"
             );
             appendDerivationContent(
-              `Total Construction Impacts from Flexible Pavement & Selected ${
-                inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Acidification = ${sumArrayValues(
-                ifCME_acidification
-              )} in kg SO2 eq./km/year`,
+              `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification = ${ifCME_acidification} in kg SO2 eq./km/year`,
               "construction-phase-results-div"
             );
             appendDerivationContent(
-              `Total Construction Impacts from Flexible Pavement & Selected ${
-                inputJson.panelSelectRoadInfrastructures
-              } Infrastructures on Global Warming  = ${sumArrayValues(
-                ifCME_global_warming
-              )} in kg CO2 eq./km/year`,
+              `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming  = ${ifCME_global_warming} in kg CO2 eq./km/year`,
               "construction-phase-results-div"
             );
           }
@@ -1126,7 +1251,7 @@
           return result;
         }
 
-        function generateConstructionPhaseResults(
+        function generateAndDisplayResults(
           data,
           divID = "construction-phase-results-div"
         ) {
@@ -1219,6 +1344,44 @@
 
           logVariableDerivations({ ITE });
           return ITE;
+        }
+
+        function generateOverallResults(results_title, impactItems) {
+          document.getElementById("overall-results-header").innerHTML =
+            results_title;
+          const container = document.querySelector(".result-containers .row");
+
+          // Loop through the impact items and generate HTML dynamically
+          impactItems.forEach((item) => {
+            const colDiv = document.createElement("div");
+            colDiv.className = "col-md-4";
+
+            const impactItemDiv = document.createElement("div");
+            impactItemDiv.className = "overall-impact-item text-center";
+
+            const iconDiv = document.createElement("div");
+            iconDiv.className = "overall-results-icon";
+            const iconElement = document.createElement("i");
+            iconElement.className = `fas fa-${item.icon}`;
+            iconDiv.appendChild(iconElement);
+
+            const descriptionDiv = document.createElement("div");
+            descriptionDiv.className = "description";
+            const titleElement = document.createElement("h2");
+            titleElement.textContent = item.title;
+            const descriptionElement = document.createElement("p");
+            descriptionElement.className = "highlight";
+            descriptionElement.textContent = item.description;
+            descriptionDiv.appendChild(titleElement);
+            descriptionDiv.appendChild(descriptionElement);
+
+            impactItemDiv.appendChild(iconDiv);
+            impactItemDiv.appendChild(descriptionDiv);
+
+            colDiv.appendChild(impactItemDiv);
+
+            container.appendChild(colDiv);
+          });
         }
 
         // UsePhase Methods
