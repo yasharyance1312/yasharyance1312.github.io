@@ -318,7 +318,7 @@
       <div id="formio"></div>
 
       <div id="results-div">
-        <div class="result-containers container mt-4">
+        <div class="result-containers container mt-4" id="overall-results-div">
           <h1 class="text-center" id="overall-results-header">
             <!-- Overall Impacts from Road Transportation Having Flexible Pavement -->
           </h1>
@@ -327,13 +327,14 @@
           </div>
         </div>
 
+        <div class="result-containers" id="use-phase-results-div">
+          <div class="title">Use Phase Impact on the Environment</div>
+        </div>
+
         <div class="result-containers" id="construction-phase-results-div">
           <div class="title">Construction Impact on the Environment</div>
         </div>
 
-        <div class="result-containers" id="use-phase-results-div">
-          <div class="title">Use Phase Impact on the Environment</div>
-        </div>
         <div class="result-containers" id="derivation-div">
           <div class="title">Derivation</div>
         </div>
@@ -342,6 +343,15 @@
       <script type="text/javascript">
         // var derivationDiv = null;
         window.onload = function () {
+          document.getElementById("overall-results-div").style.display = "none";
+          document.getElementById("use-phase-results-div").style.display =
+            "none";
+          document.getElementById(
+            "construction-phase-results-div"
+          ).style.display = "none";
+
+          document.getElementById("derivation-div").style.display = "none";
+
           var roadPavement = "";
           var y1 = "";
           var y2 = "";
@@ -1218,6 +1228,7 @@
           stringToAppend,
           contentType = "basic-derivation"
         ) {
+          document.getElementById("derivation-div").style.display = "block";
           let parentDiv = "";
 
           if (contentType == "construction-phase-results-div") {
@@ -1256,6 +1267,8 @@
           divID = "construction-phase-results-div"
         ) {
           let container = document.getElementById(divID);
+
+          container.style.display = "block";
 
           data.forEach((item) => {
             const impactItem = document.createElement("div");
@@ -1347,6 +1360,9 @@
         }
 
         function generateOverallResults(results_title, impactItems) {
+          document.getElementById("overall-results-div").style.display =
+            "flex";
+
           document.getElementById("overall-results-header").innerHTML =
             results_title;
           const container = document.querySelector(".result-containers .row");
