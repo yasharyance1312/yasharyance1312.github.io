@@ -315,6 +315,7 @@
     </div>
 
     <div id="main-container">
+      <div id="errorContainer"></div>
       <div id="formio"></div>
 
       <div id="results-div">
@@ -341,7 +342,22 @@
       </div>
 
       <script type="text/javascript">
-        // var derivationDiv = null;
+        const errorContainer = document.getElementById("errorContainer");
+        console.log(errorContainer, "errorContainer");
+        window.onerror = function (message, source, lineno, colno, error) {
+          console.log("insideon error");
+          // Create a new error message element
+          const errorMessage = document.createElement("p");
+          errorMessage.classList.add("error-message");
+          errorMessage.textContent = `${message} at line ${lineno}, column ${colno}`;
+
+          // Append the error message element to the error container
+          errorContainer.appendChild(errorMessage);
+
+          // Return false to prevent the default browser error handling
+          return false;
+        };
+
         window.onload = function () {
           document.getElementById("overall-results-div").style.display = "none";
           document.getElementById("use-phase-results-div").style.display =
@@ -742,22 +758,27 @@
           d1 = inputJson.distanceCoveredByAuto;
 
           // Distance Travelled by Bus
-          e1 = calculatePercentageOfNumber(a1, dT);
+          e1 = calculatePercentageOfNumberForDistance(a1, dT);
 
           // Distance Travelled by Car
-          f1 = calculatePercentageOfNumber(b1, dT);
+          f1 = calculatePercentageOfNumberForDistance(b1, dT);
 
           // Distance Travelled by Taxi
-          g1 = calculatePercentageOfNumber(c1, dT);
+          g1 = calculatePercentageOfNumberForDistance(c1, dT);
 
           // Distance Travelled by Auto
-          h1 = calculatePercentageOfNumber(d1, dT);
+          h1 = calculatePercentageOfNumberForDistance(d1, dT);
           logVariableDerivations({ a1, b1, c1, d1, e1, f1, g1, h1 });
           console.log(
             `Distance Travelled By Bus: ${e1} Car: ${f1} Taxi: ${g1} Auto: ${h1}`
           );
 
           if (dT != e1 + f1 + g1 + h1) {
+            console.log(
+              `Total Distance in kms ${dT} & distance covered by vehicles (${
+                e1 + f1 + g1 + h1
+              }) are not matching up.`
+            );
             throw new Error(
               `Total Distance in kms ${dT} & distance covered by vehicles (${
                 e1 + f1 + g1 + h1
@@ -774,16 +795,16 @@
           c2 = inputJson.passengerTravellingFromTaxi;
           d2 = inputJson.passengerTravellingFromAuto;
           // Passenger travelling by Bus
-          e2 = calculatePercentageOfNumber(a2, x);
+          e2 = calculatePercentageOfNumberForDistance(a2, x);
 
           // Passenger travelling by Car
-          f2 = calculatePercentageOfNumber(b2, x);
+          f2 = calculatePercentageOfNumberForDistance(b2, x);
 
           // Passenger travelling by Taxi
-          g2 = calculatePercentageOfNumber(c2, x);
+          g2 = calculatePercentageOfNumberForDistance(c2, x);
 
           // Passenger travelling by Auto
-          h2 = calculatePercentageOfNumber(d2, x);
+          h2 = calculatePercentageOfNumberForDistance(d2, x);
           logVariableDerivations({ a2, b2, c2, d2, e2, f2, g2, h2 });
 
           console.log(
@@ -791,6 +812,7 @@
           );
 
           if (x != e2 + f2 + g2 + h2) {
+            console.log();
             throw new Error(
               `Total Passengers Travelling Per Year ${x} & Passenger travelling by vehicles (${
                 e2 + f2 + g2 + h2
@@ -1144,6 +1166,20 @@
             generateAndDisplayResults(data);
           }
           loadUseCaseForm();
+        }
+
+        function calculatePercentageOfNumberForDistance(percentage, number) {
+          if (typeof percentage !== "number" || typeof number !== "number") {
+            throw new Error(
+              "Both percentage and number should be numeric values."
+            );
+          }
+
+          if (percentage < 0 || percentage > 100) {
+            throw new Error("Percentage should be between 0 and 100.");
+          }
+
+          return (percentage / 100) * number;
         }
 
         function calculatePercentageOfNumber(percentage, number) {
