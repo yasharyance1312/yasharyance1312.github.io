@@ -206,6 +206,10 @@
         margin-bottom: 20px;
       } */
 
+      .unit {
+        padding-left: 5px;
+      }
+
       .result-containers {
         background-color: #ffffff;
         padding: 20px;
@@ -242,6 +246,7 @@
       .unit {
         font-size: 12px;
         color: #777; /* Light gray color */
+        padding-left: 5px;
       }
 
       .card-header {
@@ -464,17 +469,20 @@
         function startUsePhaseComputation(inputJson) {
           console.log("----------------------------------");
           console.log(inputJson, "computation started");
-          let m = inputJson.percentOfCNGBus;
-          let n = inputJson.percentOfDieselBus;
-          let o = inputJson.percentOfCNGCar;
-          let p = inputJson.percentOfDieselCar;
-          let q = inputJson.percentOfPetrolCar;
-          let r = inputJson.percentOfCNGTaxi;
-          let s = inputJson.percentOfDieselTaxi;
-          let t = inputJson.percentOfPetrolTaxi;
-          let u = inputJson.percentOfCNGAuto;
-          let v = inputJson.percentOfDieselAuto;
-          let w = inputJson.percentOfPetrolAuto;
+
+          let defaultPercentValues = 0;
+
+          let m = inputJson.percentOfCNGBus || defaultPercentValues;
+          let n = inputJson.percentOfDieselBus || defaultPercentValues;
+          let o = inputJson.percentOfCNGCar || defaultPercentValues;
+          let p = inputJson.percentOfDieselCar || defaultPercentValues;
+          let q = inputJson.percentOfPetrolCar || defaultPercentValues;
+          let r = inputJson.percentOfCNGTaxi || defaultPercentValues;
+          let s = inputJson.percentOfDieselTaxi || defaultPercentValues;
+          let t = inputJson.percentOfPetrolTaxi || defaultPercentValues;
+          let u = inputJson.percentOfCNGAuto || defaultPercentValues;
+          let v = inputJson.percentOfDieselAuto || defaultPercentValues;
+          let w = inputJson.percentOfPetrolAuto || defaultPercentValues;
 
           logVariableDerivations({ m, n, o, p, q, r, s, t, u, v, w });
 
@@ -636,6 +644,7 @@
               unit: ` ${iFC_global_warming + iTE} in kg CO2 eq./km/year`,
             },
           ];
+
           generateAndDisplayResults(
             use_phase_results_data,
             "use-phase-results-div"
