@@ -309,7 +309,7 @@
       <nav class="nav">
         <h1 class="logo">
           <i class="fas fa-cogs logo-icon"></i>
-          Concept of Mobility Impact Analyser (MIA) Tool
+              Mobility Impact Analyser (MIA) Tool
         </h1>
         <ul class="menu">
           <!-- <li class="menu-item"><a href="#" class="menu-link">Road</a></li>
@@ -631,17 +631,17 @@
             {
               impactText: `Total Use Phase Impacts on Abiotic Depletion Fossil`,
               icon: "fa-fire-alt",
-              unit: ` ${iFC_abiotic_depletion_fossil} in MJ/km/year`,
+              unit: ` ${removeDecimalPrecision(iFC_abiotic_depletion_fossil)} MJ/km/year`,
             },
             {
               impactText: `Total Use Phase Impacts on Acidification`,
               icon: "fa-cloud",
-              unit: `${iFC_acidification} in kg SO2 eq./km/year`,
+              unit: `${removeDecimalPrecision(iFC_acidification)} kg SO2 eq./km/year`,
             },
             {
               impactText: `Total Use Phase Impacts on Global Warming`,
               icon: "fa-globe",
-              unit: ` ${iFC_global_warming + iTE} in kg CO2 eq./km/year`,
+              unit: ` ${removeDecimalPrecision(iFC_global_warming + iTE)} kg CO2 eq./km/year`,
             },
           ];
 
@@ -658,7 +658,7 @@
           if (roadPavement == "rigid") {
             iCME_abiotic_depletion_fossil = irCME_abiotic_depletion_fossil;
             iCME_acidification = irCME_acidification;
-            iCME_global_warming = iCME_global_warming;
+            iCME_global_warming = irCME_global_warming;
             results_title =
               "Overall Impacts from Road Transportation Having Rigid Pavement";
           } else {
@@ -674,22 +674,22 @@
               icon: "bus",
               title: `Overall Impacts on Abiotic Depletion Fossil `,
               description: ` ${
-                iCME_abiotic_depletion_fossil + iFC_abiotic_depletion_fossil
-              } in MJ/km/year`,
+                removeDecimalPrecision(iCME_abiotic_depletion_fossil + iFC_abiotic_depletion_fossil)
+              } MJ/km/year`,
             },
             {
               icon: "cloud",
               title: `Overall Impacts on Acidification`,
               description: `${
-                iCME_acidification + iFC_acidification
-              } in kg SO2 eq./km/year`,
+                removeDecimalPrecision(iCME_acidification + iFC_acidification)
+              } kg SO2 eq./km/year`,
             },
             {
               icon: "globe",
               title: `Overall Impacts on Global Warming`,
               description: ` ${
-                iCME_global_warming + iFC_global_warming + iTE
-              } in kg CO2 eq./km/year`,
+                removeDecimalPrecision(iCME_global_warming + iFC_global_warming + iTE)
+              } kg CO2 eq./km/year`,
             },
           ];
           generateOverallResults(results_title, overall_impact_data);
@@ -1125,17 +1125,17 @@
               {
                 impactText: `Total Construction Phase Impacts from Rigid Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
                 icon: "fa-fire-alt",
-                unit: ` ${irCME_abiotic_depletion_fossil} in MJ/km/year`,
+                unit: ` ${removeDecimalPrecision(irCME_abiotic_depletion_fossil)} MJ/km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
                 icon: "fa-cloud",
-                unit: `${irCME_acidification} in kg SO2 eq./km/year`,
+                unit: `${removeDecimalPrecision(irCME_acidification)} kg SO2 eq./km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement & Selected  ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
                 icon: "fa-globe",
-                unit: ` ${irCME_global_warming} in kg CO2 eq./km/year`,
+                unit: ` ${removeDecimalPrecision(irCME_global_warming)} kg CO2 eq./km/year`,
               },
             ];
             generateAndDisplayResults(data);
@@ -1158,17 +1158,17 @@
               {
                 impactText: `Total Construction Phase Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Abiotic Depletion Fossil`,
                 icon: "fa-fire-alt",
-                unit: ` ${ifCME_abiotic_depletion_fossil} in MJ/km/year`,
+                unit: ` ${removeDecimalPrecision(ifCME_abiotic_depletion_fossil)} MJ/km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
                 icon: "fa-cloud",
-                unit: `${ifCME_acidification} in kg SO2 eq./km/year`,
+                unit: `${removeDecimalPrecision(ifCME_acidification)} kg SO2 eq./km/year`,
               },
               {
                 impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
                 icon: "fa-globe",
-                unit: ` ${ifCME_global_warming} in kg CO2 eq./km/year`,
+                unit: ` ${removeDecimalPrecision(ifCME_global_warming)} kg CO2 eq./km/year`,
               },
             ];
 
@@ -1433,6 +1433,10 @@
 
           logVariableDerivations({ ITE });
           return ITE;
+        }
+
+        function removeDecimalPrecision(number) {
+          return number | 0;
         }
 
         function generateOverallResults(results_title, impactItems) {
