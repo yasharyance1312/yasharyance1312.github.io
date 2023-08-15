@@ -87,7 +87,37 @@
           "tags": [],
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
+          "customConditional": "// show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)\n\nshow = false"
+        },
+        {
+          "autofocus": false,
+          "input": true,
+          "tableView": true,
+          "label": "Select Road Infrastructures:",
+          "key": "roadInfrastructureOptions",
+          "values": [
+            { "value": "footpath", "label": "Footpath", "shortcut": "" },
+            { "value": "slabCulvert", "label": "Slab culvert", "shortcut": "" },
+            { "value": "pipeCulvert", "label": "Pipe culvert", "shortcut": "" },
+            {
+              "value": "overheadSignage",
+              "label": "Overhead Signage",
+              "shortcut": ""
+            },
+            { "value": "flyover", "label": "Flyover", "shortcut": "" }
+          ],
+          "inline": false,
+          "protected": false,
+          "persistent": true,
+          "hidden": false,
+          "clearOnHide": true,
+          "validate": { "required": false },
+          "type": "selectboxes",
+          "labelPosition": "top",
+          "optionsLabelPosition": "right",
+          "conditional": { "show": "", "when": null, "eq": "" },
+          "properties": {},
+          "lockKey": true
         },
         {
           "clearOnHide": false,
@@ -134,7 +164,7 @@
           "tags": [],
           "conditional": {
             "show": "true",
-            "when": "panelSelectRoadInfrastructures",
+            "when": "roadInfrastructureOptions",
             "eq": "footpath"
           },
           "properties": {},
@@ -215,7 +245,7 @@
           "tags": [],
           "conditional": {
             "show": "true",
-            "when": "panelSelectRoadInfrastructures",
+            "when": "roadInfrastructureOptions",
             "eq": "slabCulvert"
           },
           "properties": {},
@@ -296,7 +326,7 @@
           "tags": [],
           "conditional": {
             "show": "true",
-            "when": "panelSelectRoadInfrastructures",
+            "when": "roadInfrastructureOptions",
             "eq": "pipeCulvert"
           },
           "properties": {},
@@ -350,7 +380,7 @@
           "tags": [],
           "conditional": {
             "show": "true",
-            "when": "panelSelectRoadInfrastructures",
+            "when": "roadInfrastructureOptions",
             "eq": "overheadSignage"
           },
           "properties": {},
@@ -431,7 +461,7 @@
           "tags": [],
           "conditional": {
             "show": "true",
-            "when": "panelSelectRoadInfrastructures",
+            "when": "roadInfrastructureOptions",
             "eq": "flyover"
           },
           "properties": {}
@@ -466,7 +496,8 @@
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
           "lockKey": true,
-          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
+          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)",
+          "isNew": false
         },
         {
           "autofocus": false,
@@ -847,6 +878,6 @@
     }
   ],
   "created": "2023-07-08T19:55:15.874Z",
-  "modified": "2023-08-15T14:14:05.351Z",
+  "modified": "2023-08-15T18:02:45.319Z",
   "machineName": "mia"
 }
