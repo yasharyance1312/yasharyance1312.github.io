@@ -87,7 +87,8 @@
           "tags": [],
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "customConditional": "// show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)\n\nshow = false"
+          "customConditional": "// show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)\n\nshow = false",
+          "isNew": false
         },
         {
           "autofocus": false,
@@ -117,7 +118,8 @@
           "optionsLabelPosition": "right",
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "lockKey": true
+          "lockKey": true,
+          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
         },
         {
           "clearOnHide": false,
@@ -878,6 +880,6 @@
     }
   ],
   "created": "2023-07-08T19:55:15.874Z",
-  "modified": "2023-08-15T18:02:45.319Z",
+  "modified": "2023-08-15T18:07:22.860Z",
   "machineName": "mia"
 }
