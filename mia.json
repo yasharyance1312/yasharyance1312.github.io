@@ -533,7 +533,40 @@
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
           "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)",
-          "lockKey": true
+          "lockKey": true,
+          "isNew": false
+        },
+        {
+          "autofocus": false,
+          "input": true,
+          "tableView": true,
+          "inputType": "number",
+          "label": "Enter number of passengers per year:",
+          "key": "noOfPassengersPerYear",
+          "placeholder": "",
+          "prefix": "",
+          "suffix": "",
+          "defaultValue": "",
+          "protected": false,
+          "persistent": true,
+          "hidden": false,
+          "clearOnHide": true,
+          "validate": {
+            "required": false,
+            "min": "",
+            "max": "",
+            "step": "any",
+            "integer": "",
+            "multiple": "",
+            "custom": ""
+          },
+          "type": "number",
+          "labelPosition": "top",
+          "tags": [],
+          "conditional": { "show": "", "when": null, "eq": "" },
+          "properties": {},
+          "lockKey": true,
+          "customConditional": "show = data[\"lengthOfRoadPavement\"] > 0"
         },
         {
           "clearOnHide": false,
@@ -672,7 +705,7 @@
           "tags": [],
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "customConditional": "show = data[\"totalDistanceTravelledPerYear\"] > 0"
+          "customConditional": "show = data[\"noOfPassengersPerYear\"] > 0"
         },
         {
           "clearOnHide": false,
@@ -681,37 +714,6 @@
           "tableView": false,
           "legend": "Passengers Info",
           "components": [
-            {
-              "autofocus": false,
-              "input": true,
-              "tableView": true,
-              "inputType": "number",
-              "label": "Enter number of passengers per year:",
-              "key": "noOfPassengersPerYear",
-              "placeholder": "",
-              "prefix": "",
-              "suffix": "",
-              "defaultValue": "",
-              "protected": false,
-              "persistent": true,
-              "hidden": false,
-              "clearOnHide": true,
-              "validate": {
-                "required": false,
-                "min": "",
-                "max": "",
-                "step": "any",
-                "integer": "",
-                "multiple": "",
-                "custom": ""
-              },
-              "type": "number",
-              "labelPosition": "top",
-              "tags": [],
-              "conditional": { "show": "", "when": null, "eq": "" },
-              "properties": {},
-              "lockKey": true
-            },
             {
               "autofocus": false,
               "input": true,
@@ -882,6 +884,6 @@
     }
   ],
   "created": "2023-07-08T19:55:15.874Z",
-  "modified": "2024-03-09T18:35:04.749Z",
+  "modified": "2024-03-09T19:36:42.769Z",
   "machineName": "mia"
 }
