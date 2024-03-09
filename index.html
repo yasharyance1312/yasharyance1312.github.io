@@ -383,6 +383,7 @@
           var y7 = "";
           var y8 = "";
           var z = "";
+          var lP = "";
 
           var i = "";
           var j = "";
@@ -438,6 +439,7 @@
                     return;
                   } else {
                     clearDerivationContent();
+                    console.log("Derivation content cleared");
                     startComputing(submission.data);
                   }
                 }
@@ -717,7 +719,8 @@
             "passengerTravellingFromCar",
             "passengerTravellingFromTaxi",
             "roadPavement",
-            "totalDistanceTravelledPerYear",
+            "lengthOfRoadPavement"
+            //"totalDistanceTravelledPerYear",
           ];
 
           const jsonKeys = Object.keys(inputJson);
@@ -736,10 +739,12 @@
             }
           }
 
+          console.log("---------------------------------- No Missing Keys ---------------");
           return true;
         }
 
         function startComputing(inputJson) {
+          console.log("Started Computation", inputJson)
           roadPavement = inputJson.roadPavement;
           // Footpath
           y1 = inputJson.lengthOfFootpath || 0;
@@ -762,8 +767,14 @@
           //No of Lanes
           z = inputJson.npOfLanes;
 
+
+          lP = inputJson.lengthOfRoadPavement;
+          // No of passengers per year
+          x = inputJson.noOfPassengersPerYear;
+
           // Total Distance Tobe Travelled in km per year
-          dT = inputJson.totalDistanceTravelledPerYear;
+          dT = lP * x;
+          logVariableDerivations({ dT });
 
           logVariableDerivations({ y1, y2, y3, y4, y5, y6, y7, y8, z, dT });
           // % of distance covered by vehicle
@@ -800,9 +811,6 @@
               }) are not matching up.`
             );
           }
-
-          // No of passengers per year
-          x = inputJson.noOfPassengersPerYear;
 
           // Travelling from Vehicles
           a2 = inputJson.passengerTravellingFromBus;
@@ -1063,7 +1071,7 @@
           });
 
           irCME_abiotic_depletion_fossil = [
-            z * 0.9 * rigidPavementImpact["abiotic_depletion_fossil"] * dT,
+            z * 0.9 * rigidPavementImpact["abiotic_depletion_fossil"] * lP,
             vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
@@ -1072,7 +1080,7 @@
           ];
 
           ifCME_abiotic_depletion_fossil = [
-            z * 0.9 * flexiblePavementImpact["abiotic_depletion_fossil"] * dT,
+            z * 0.9 * flexiblePavementImpact["abiotic_depletion_fossil"] * lP,
             vehicle_impact["bus"]["abiotic_depletion_fossil"] * i,
             vehicle_impact["car"]["abiotic_depletion_fossil"] * j,
             vehicle_impact["taxi"]["abiotic_depletion_fossil"] * k,
@@ -1081,7 +1089,7 @@
           ];
 
           irCME_acidification = [
-            z * 0.9 * rigidPavementImpact["acidification"] * dT,
+            z * 0.9 * rigidPavementImpact["acidification"] * lP,
             vehicle_impact["bus"]["acidification"] * i,
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
@@ -1090,7 +1098,7 @@
           ];
 
           ifCME_acidification = [
-            z * 0.9 * flexiblePavementImpact["acidification"] * dT,
+            z * 0.9 * flexiblePavementImpact["acidification"] * lP,
             vehicle_impact["bus"]["acidification"] * i,
             vehicle_impact["car"]["acidification"] * j,
             vehicle_impact["taxi"]["acidification"] * k,
@@ -1099,7 +1107,7 @@
           ];
 
           irCME_global_warming = [
-            z * 0.9 * rigidPavementImpact["global_warming"] * dT,
+            z * 0.9 * rigidPavementImpact["global_warming"] * lP,
             vehicle_impact["bus"]["global_warming"] * i,
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
@@ -1108,7 +1116,7 @@
           ];
 
           ifCME_global_warming = [
-            z * 0.9 * flexiblePavementImpact["global_warming"] * dT,
+            z * 0.9 * flexiblePavementImpact["global_warming"] * lP,
             vehicle_impact["bus"]["global_warming"] * i,
             vehicle_impact["car"]["global_warming"] * j,
             vehicle_impact["taxi"]["global_warming"] * k,
@@ -1148,21 +1156,21 @@
                 icon: "fa-fire-alt",
                 unit: ` ${removeDecimalPrecision(
                   irCME_abiotic_depletion_fossil
-                )} MJ/km/year`,
+                )} MJ/year`,
               },
               {
                 impactText: `Total Construction Impacts from Rigid Pavement on Acidification`,
                 icon: "fa-cloud",
                 unit: `${removeDecimalPrecision(
                   irCME_acidification
-                )} kg SO2 eq./km/year`,
+                )} kg SO2 eq./year`,
               },
               {
-                impactText: `Total Construction Impacts from Rigid Pavement on Global Warming`,
+                impactText: `Total Construction Impacts from Rigid Pavement  on Global Warming`,
                 icon: "fa-globe",
                 unit: ` ${removeDecimalPrecision(
                   irCME_global_warming
-                )} kg CO2 eq./km/year`,
+                )} kg CO2 eq./year`,
               },
             ];
             generateAndDisplayResults(data);
@@ -1187,21 +1195,21 @@
                 icon: "fa-fire-alt",
                 unit: ` ${removeDecimalPrecision(
                   ifCME_abiotic_depletion_fossil
-                )} MJ/km/year`,
+                )} MJ/year`,
               },
               {
                 impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Acidification`,
                 icon: "fa-cloud",
                 unit: `${removeDecimalPrecision(
                   ifCME_acidification
-                )} kg SO2 eq./km/year`,
+                )} kg SO2 eq./year`,
               },
               {
                 impactText: `Total Construction Impacts from Flexible Pavement & Selected ${inputJson.panelSelectRoadInfrastructures} Infrastructures on Global Warming`,
                 icon: "fa-globe",
                 unit: ` ${removeDecimalPrecision(
                   ifCME_global_warming
-                )} kg CO2 eq./km/year`,
+                )} kg CO2 eq./year`,
               },
             ];
 
@@ -1287,12 +1295,12 @@
           switch (vehicleName) {
             case "buses":
               const busesNeeded =
-                e2 / passengersPerBus / (e1 / (10 * 18 * daysInYear));
+                (e2 / passengersPerBus) * (e1 / (10 * 18 * daysInYear));
               console.log(e2, e1);
-              return Math.ceil(busesNeeded);
+              return busesNeeded.toFixed(3);
             case "cars":
               const carsNeeded =
-                f2 / passengersPerCar / (f1 / (15 * 3 * daysInYear));
+                (f2 / passengersPerCar) * (f1 / (25 * 5 * daysInYear));
               console.log(carsNeeded, "CarsNeeded");
               console.log(passengersPerCar, "passengersPerCar");
               console.log(f2, "f2");
@@ -1304,15 +1312,15 @@
                 "(f1 / (15 * 3 * daysInYear)"
               );
 
-              return Math.ceil(carsNeeded);
+              return carsNeeded.toFixed(3);
             case "taxis":
               const taxisNeeded =
-                g2 / passengersPerTaxi / (g1 / (12 * 6 * daysInYear));
-              return Math.ceil(taxisNeeded);
+                (g2 / passengersPerTaxi) * (g1 / (20 * 16 * daysInYear));
+              return taxisNeeded.toFixed(3);
             case "autos":
               const autosNeeded =
-                h2 / passengersPerAuto / (h1 / (10 * 7 * daysInYear));
-              return Math.ceil(autosNeeded);
+                (h2 / passengersPerAuto) * (h1 / (15 * 16 * daysInYear));
+              return autosNeeded.toFixed(3);
             default:
               throw new Error(
                 "Invalid vehicle name. Supported vehicles: buses, cars, taxis, autos"

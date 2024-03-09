@@ -7,6 +7,10 @@
   "display": "form",
   "tags": ["common"],
   "submissionAccess": [
+    { "type": "create_all", "roles": [] },
+    { "type": "read_all", "roles": [] },
+    { "type": "update_all", "roles": [] },
+    { "type": "delete_all", "roles": [] },
     { "type": "create_own", "roles": ["64a9bee43630df39ca9ea115"] },
     { "type": "read_own", "roles": ["64a9bee43630df39ca9ea115"] },
     { "type": "update_own", "roles": ["64a9bee43630df39ca9ea115"] },
@@ -87,8 +91,7 @@
           "tags": [],
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "customConditional": "// show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)\n\nshow = false",
-          "isNew": false
+          "customConditional": "// show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)\n\nshow = false"
         },
         {
           "autofocus": false,
@@ -498,16 +501,15 @@
           "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
           "lockKey": true,
-          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)",
-          "isNew": false
+          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)"
         },
         {
           "autofocus": false,
           "input": true,
           "tableView": true,
           "inputType": "number",
-          "label": "Enter total distance to be travelled in km per year:",
-          "key": "totalDistanceTravelledPerYear",
+          "label": "Enter length of road pavement in km:",
+          "key": "lengthOfRoadPavement",
           "placeholder": "",
           "prefix": "",
           "suffix": "",
@@ -528,10 +530,10 @@
           "type": "number",
           "labelPosition": "top",
           "tags": [],
-          "conditional": { "show": "true", "when": "npOfLanes", "eq": "" },
+          "conditional": { "show": "", "when": null, "eq": "" },
           "properties": {},
-          "lockKey": true,
-          "customConditional": "show = data[\"npOfLanes\"] > 0"
+          "customConditional": "show = (data[\"roadPavement\"] != null && data[\"roadPavement\"] != \"\" && data[\"roadPavement\"] != undefined)",
+          "lockKey": true
         },
         {
           "clearOnHide": false,
@@ -880,6 +882,6 @@
     }
   ],
   "created": "2023-07-08T19:55:15.874Z",
-  "modified": "2023-08-15T18:07:22.860Z",
+  "modified": "2024-03-09T18:35:04.749Z",
   "machineName": "mia"
 }
