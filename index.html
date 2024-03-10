@@ -468,7 +468,14 @@
         }
 
         function startUsePhaseComputation(inputJson) {
-          console.log("----------------------------------");
+          console.log(
+            "-------------- UsePhase Computation Started--------------------"
+          );
+          console.log(
+            "-------------- UsePhase Computation Started--------------------",
+            dT
+          );
+
           console.log(inputJson, "computation started");
 
           let defaultPercentValues = 0;
@@ -493,8 +500,8 @@
           // let l = 100; // ToDo: Will come from the data point
           // let dT = 100; // ToDo: Will come from the data point
 
-          // Buses
           let nCB = calculatePercentageOfNumber(m, i);
+
           let nDB = calculatePercentageOfNumber(n, i);
           logVariableDerivations({ nCB, nDB });
 
@@ -625,7 +632,8 @@
             nPT,
             nCA,
             nDA,
-            nPA
+            nPA,
+            dT
           );
 
           let use_phase_results_data = [
@@ -634,21 +642,21 @@
               icon: "fa-fire-alt",
               unit: ` ${removeDecimalPrecision(
                 iFC_abiotic_depletion_fossil
-              )} MJ/km/year`,
+              )} MJ/year`,
             },
             {
               impactText: `Total Use Phase Impacts on Acidification`,
               icon: "fa-cloud",
               unit: `${removeDecimalPrecision(
                 iFC_acidification
-              )} kg SO2 eq./km/year`,
+              )} kg SO2 eq./year`,
             },
             {
               impactText: `Total Use Phase Impacts on Global Warming`,
               icon: "fa-globe",
               unit: ` ${removeDecimalPrecision(
                 iFC_global_warming + iTE
-              )} kg CO2 eq./km/year`,
+              )} kg CO2 eq./year`,
             },
           ];
 
@@ -682,21 +690,21 @@
               title: `Overall Impacts on Abiotic Depletion Fossil `,
               description: ` ${removeDecimalPrecision(
                 iCME_abiotic_depletion_fossil + iFC_abiotic_depletion_fossil
-              )} MJ/km/year`,
+              )} MJ/year`,
             },
             {
               icon: "cloud",
               title: `Overall Impacts on Acidification`,
               description: `${removeDecimalPrecision(
                 iCME_acidification + iFC_acidification
-              )} kg SO2 eq./km/year`,
+              )} kg SO2 eq./year`,
             },
             {
               icon: "globe",
               title: `Overall Impacts on Global Warming`,
               description: ` ${removeDecimalPrecision(
                 iCME_global_warming + iFC_global_warming + iTE
-              )} kg CO2 eq./km/year`,
+              )} kg CO2 eq./year`,
             },
           ];
           generateOverallResults(results_title, overall_impact_data);
@@ -717,7 +725,7 @@
             "passengerTravellingFromCar",
             "passengerTravellingFromTaxi",
             "roadPavement",
-            "lengthOfRoadPavement"
+            "lengthOfRoadPavement",
             //"totalDistanceTravelledPerYear",
           ];
 
@@ -740,7 +748,7 @@
         }
 
         function startComputing(inputJson) {
-          console.log("Started Computation", inputJson)
+          console.log("Started Computation", inputJson);
           roadPavement = inputJson.roadPavement;
           // Footpath
           y1 = inputJson.lengthOfFootpath || 0;
@@ -762,7 +770,6 @@
 
           //No of Lanes
           z = inputJson.npOfLanes;
-
 
           lP = inputJson.lengthOfRoadPavement;
           // No of passengers per year
@@ -1239,7 +1246,7 @@
             throw new Error("Percentage should be between 0 and 100.");
           }
 
-          return Math.ceil((percentage / 100) * number);
+          return parseFloat(((percentage / 100) * number).toFixed(3));
         }
 
         // function calculateVehiclesRequired(passengerCount, busCapacity) {
@@ -1293,7 +1300,7 @@
               const busesNeeded =
                 (e2 / passengersPerBus) * (e1 / (10 * 18 * daysInYear));
               console.log(e2, e1);
-              return busesNeeded.toFixed(3);
+              return parseFloat(busesNeeded.toFixed(3));
             case "cars":
               const carsNeeded =
                 (f2 / passengersPerCar) * (f1 / (25 * 5 * daysInYear));
@@ -1308,15 +1315,15 @@
                 "(f1 / (15 * 3 * daysInYear)"
               );
 
-              return carsNeeded.toFixed(3);
+              return parseFloat(carsNeeded.toFixed(3));
             case "taxis":
               const taxisNeeded =
                 (g2 / passengersPerTaxi) * (g1 / (20 * 16 * daysInYear));
-              return taxisNeeded.toFixed(3);
+              return parseFloat(taxisNeeded.toFixed(3));
             case "autos":
               const autosNeeded =
                 (h2 / passengersPerAuto) * (h1 / (15 * 16 * daysInYear));
-              return autosNeeded.toFixed(3);
+              return parseFloat(autosNeeded.toFixed(3));
             default:
               throw new Error(
                 "Invalid vehicle name. Supported vehicles: buses, cars, taxis, autos"
@@ -1328,7 +1335,6 @@
           object,
           contentType = "basic-derivation"
         ) {
-
           for (var prop in object) {
             if (object.hasOwnProperty(prop)) {
               appendDerivationContent(prop + ": " + object[prop], contentType);
@@ -1437,19 +1443,20 @@
           Npt,
           Nca,
           Nda,
-          Npa
+          Npa,
+          distance_travelled
         ) {
-          const Tcb = (Ncb * 492.9) / 1000;
-          const Tdb = (Ndb * 638.5) / 1000;
-          const Tcc = (Ncc * 126.9) / 1000;
-          const Tdc = (Ndc * 108) / 1000;
-          const Tpc = (Npc * 95.63) / 1000;
-          const Tct = (Nct * 126.9) / 1000;
-          const Tdt = (Ndt * 108) / 1000;
-          const Tpt = (Npt * 95.63) / 1000;
-          const Tca = (Nca * 71.5) / 1000;
-          const Tda = (Nda * 441.3) / 1000;
-          const Tpa = (Npa * 294.8) / 1000;
+          const Tcb = (Ncb * distance_travelled * 492.9) / 1000;
+          const Tdb = (Ndb * distance_travelled * 638.5) / 1000;
+          const Tcc = (Ncc * distance_travelled * 126.9) / 1000;
+          const Tdc = (Ndc * distance_travelled * 108) / 1000;
+          const Tpc = (Npc * distance_travelled * 95.63) / 1000;
+          const Tct = (Nct * distance_travelled * 126.9) / 1000;
+          const Tdt = (Ndt * distance_travelled * 108) / 1000;
+          const Tpt = (Npt * distance_travelled * 95.63) / 1000;
+          const Tca = (Nca * distance_travelled * 71.5) / 1000;
+          const Tda = (Nda * distance_travelled * 441.3) / 1000;
+          const Tpa = (Npa * distance_travelled * 294.8) / 1000;
 
           logVariableDerivations({
             Tcb,
