@@ -419,7 +419,7 @@
             "enternumberofSubSectioningandParallelingPostsSspUnit",
             "entertotallengthofViaductsinkm",
             "enternumberofElevatedMetroStations",
-            "enternumberofUndergroundMetroStation",
+            "enternumberofUndergroundMetroStations",
             "entertotallengthofTunnelsinkm",
           ];
 
@@ -443,6 +443,8 @@
 
         function startComputing(inputJson) {
           console.log("STarted Computing --->");
+          console.log("STarted Computing --->", inputJson);
+
           dT = inputJson.distanceToTravelInkm;
           x = inputJson.noOfPassengersPerYear;
           a = inputJson.enternumberofTractionSubstationTssUnit;
@@ -453,15 +455,14 @@
           f = inputJson.enternumberofUndergroundMetroStations;
           g = inputJson.entertotallengthofTunnelsinkm;
 
-          // enternumberofUndergroundMetroStations
-          // entertotallengthofTunnelsinkm
-
           logVariableDerivations({ dT, x, a, b, c, d, e, f, g });
-          let tCoach = Math.ceil(x / 3175);
-          if (tCoach < 1) {
-            tCoach = 1;
-          }
-          logVariableDerivations({ tCoach });
+          // Total Metro Coach required (Tcoach)
+          let Tcoach = x * 300; // considering 1 coach can accommodate 300 persons
+
+          // Nos of Metro Trains Required (TMetro)
+          let TMetro = Math.ceil(Tcoach / 8); // considering 1 metro train has 8 coaches
+          if (TMetro < 1) TMetro = 1;
+          logVariableDerivations({ Tcoach });
           console.log(inputJson);
 
           console.log("STarted Computing Impact--->");
@@ -523,231 +524,210 @@
           };
 
           // OHE impacts
-          let ohe_impact_abiotic_depletion_fossil =
-            dT * impacts.ohe.abiotic_depletion_fossil;
-          let OHEADP = ohe_impact_abiotic_depletion_fossil;
-
-          let ohe_impact_acidification = dT * impacts.ohe.acidification;
-          let OHEAC = ohe_impact_acidification;
-
-          let ohe_impact_global_warming = dT * impacts.ohe.global_warming;
-          let OHEGWP = ohe_impact_global_warming;
+          let OHEADP = dT * impacts.ohe.abiotic_depletion_fossil;
+          let OHEAC = dT * impacts.ohe.acidification;
+          let OHEGWP = dT * impacts.ohe.global_warming;
 
           // TSS impacts
-          let tss_impact_abiotic_depletion_fossil =
-            a * impacts.tss_unit.abiotic_depletion_fossil;
-          let TSSADP = tss_impact_abiotic_depletion_fossil;
-
-          let tss_impact_acidification = a * impacts.tss_unit.acidification;
-          let TSSAC = tss_impact_acidification;
-
-          let tss_impact_global_warming = a * impacts.tss_unit.global_warming;
-          let TSSGWP = tss_impact_global_warming;
+          let TSSADP = a * impacts.tss_unit.abiotic_depletion_fossil;
+          let TSSAC = a * impacts.tss_unit.acidification;
+          let TSSGWP = a * impacts.tss_unit.global_warming;
 
           // SP impacts
-          let sp_impact_abiotic_depletion_fossil =
-            b * impacts.sp_unit.abiotic_depletion_fossil;
-          let SPADP = sp_impact_abiotic_depletion_fossil;
-
-          let sp_impact_acidification = b * impacts.sp_unit.acidification;
-          let SPAC = sp_impact_acidification;
-
-          let sp_impact_global_warming = b * impacts.sp_unit.global_warming;
-          let SPGWP = sp_impact_global_warming;
+          let SPADP = b * impacts.sp_unit.abiotic_depletion_fossil;
+          let SPAC = b * impacts.sp_unit.acidification;
+          let SPGWP = b * impacts.sp_unit.global_warming;
 
           // SSP impacts
-          let ssp_impact_abiotic_depletion_fossil =
-            c * impacts.ssp_unit.abiotic_depletion_fossil;
-          let SSPADP = ssp_impact_abiotic_depletion_fossil;
+          let SSPADP = c * impacts.ssp_unit.abiotic_depletion_fossil;
+          let SSPAC = c * impacts.ssp_unit.acidification;
+          let SSPGWP = c * impacts.ssp_unit.global_warming;
 
-          let ssp_impact_acidification = c * impacts.ssp_unit.acidification;
-          let SSPAC = ssp_impact_acidification;
+          // Viaduct impacts
+          let VADP = d * impacts.viaduct_unit.abiotic_depletion_fossil;
+          let VAC = d * impacts.viaduct_unit.acidification;
+          let VGWP = d * impacts.viaduct_unit.global_warming;
 
-          let ssp_impact_global_warming = c * impacts.ssp_unit.global_warming;
-          let SSPGWP = ssp_impact_global_warming;
+          // Elevated Station impacts
+          let ESADP = e * impacts.elevated_station.abiotic_depletion_fossil;
+          let ESAC = e * impacts.elevated_station.acidification;
+          let ESGWP = e * impacts.elevated_station.global_warming;
 
-          // Platform impacts
-          let platform_impact_abiotic_depletion_fossil =
-            d * 1690 * impacts.platform.abiotic_depletion_fossil;
-          let PADP = platform_impact_abiotic_depletion_fossil;
+          // Underground Station impacts
+          let USADP = f * impacts.undergroun_station.abiotic_depletion_fossil;
+          let USAC = f * impacts.undergroun_station.acidification;
+          let USGWP = f * impacts.undergroun_station.global_warming;
 
-          let platform_impact_acidification =
-            d * 1690 * impacts.platform.acidification;
-          let PAC = platform_impact_acidification;
-
-          let platform_impact_global_warming =
-            d * 1690 * impacts.platform.global_warming;
-          let PGWP = platform_impact_global_warming;
-
-          // FOB impacts
-          let fob_impact_abiotic_depletion_fossil =
-            e * 253 * impacts.fob.abiotic_depletion_fossil;
-          let FOBADP = fob_impact_abiotic_depletion_fossil;
-
-          let fob_impact_acidification = e * 253 * impacts.fob.acidification;
-          let FOBAC = fob_impact_acidification;
-
-          let fob_impact_global_warming = e * 253 * impacts.fob.global_warming;
-          let FOBGWP = fob_impact_global_warming;
+          // Tunnel impacts
+          let TNADP = g * impacts.tunnel.abiotic_depletion_fossil;
+          let TNAC = g * impacts.tunnel.acidification;
+          let TNGWP = g * impacts.tunnel.global_warming;
 
           // Track impacts
-          let track_impact_abiotic_depletion_fossil =
-            dT * impacts.track.abiotic_depletion_fossil;
-          let TKADP = track_impact_abiotic_depletion_fossil;
+          let TKADP = dT * impacts.track.abiotic_depletion_fossil;
+          let TKAC = dT * impacts.track.acidification;
+          let TKGWP = dT * impacts.track.global_warming;
 
-          let track_impact_acidification = dT * impacts.track.acidification;
-          let TKAC = track_impact_acidification;
+          // Metro Coach impacts
+          let MCADP = Tcoach * impacts.metro_coach.abiotic_depletion_fossil;
+          let MCAC = Tcoach * impacts.metro_coach.acidification;
+          let MCGWP = Tcoach * impacts.metro_coach.global_warming;
 
-          let track_impact_global_warming = dT * impacts.track.global_warming;
-          let TKGWP = track_impact_global_warming;
-
-          // EMU impacts
-          let emu_impact_abiotic_depletion_fossil =
-            tCoach * impacts.emu_12_coach.abiotic_depletion_fossil;
-          let EMUADP = emu_impact_abiotic_depletion_fossil;
-
-          let emu_impact_acidification =
-            tCoach * impacts.emu_12_coach.acidification;
-          let EMUAC = emu_impact_acidification;
-
-          let emu_impact_global_warming =
-            tCoach * impacts.emu_12_coach.global_warming;
-          let EMUGWP = emu_impact_global_warming;
-
-          // Log the impacts
           logVariableDerivations({
-            ohe_impact_abiotic_depletion_fossil,
+            Tcoach,
+            TMetro,
             OHEADP,
-            ohe_impact_acidification,
             OHEAC,
-            ohe_impact_global_warming,
             OHEGWP,
-            tss_impact_abiotic_depletion_fossil,
             TSSADP,
-            tss_impact_acidification,
             TSSAC,
-            tss_impact_global_warming,
             TSSGWP,
-            sp_impact_abiotic_depletion_fossil,
             SPADP,
-            sp_impact_acidification,
             SPAC,
-            sp_impact_global_warming,
             SPGWP,
-            ssp_impact_abiotic_depletion_fossil,
             SSPADP,
-            ssp_impact_acidification,
             SSPAC,
-            ssp_impact_global_warming,
             SSPGWP,
-            platform_impact_abiotic_depletion_fossil,
-            PADP,
-            platform_impact_acidification,
-            PAC,
-            platform_impact_global_warming,
-            PGWP,
-            fob_impact_abiotic_depletion_fossil,
-            FOBADP,
-            fob_impact_acidification,
-            FOBAC,
-            fob_impact_global_warming,
-            FOBGWP,
-            track_impact_abiotic_depletion_fossil,
+            VADP,
+            VAC,
+            VGWP,
+            ESADP,
+            ESAC,
+            ESGWP,
+            USADP,
+            USAC,
+            USGWP,
+            TNADP,
+            TNAC,
+            TNGWP,
             TKADP,
-            track_impact_acidification,
             TKAC,
-            track_impact_global_warming,
             TKGWP,
-            emu_impact_abiotic_depletion_fossil,
-            EMUADP,
-            emu_impact_acidification,
-            EMUAC,
-            emu_impact_global_warming,
-            EMUGWP,
+            MCADP,
+            MCAC,
+            MCGWP,
           });
 
           // Summing up the impacts
-          let ISRCADP =
-            OHEADP + TSSADP + SPADP + SSPADP + PADP + FOBADP + TKADP + EMUADP;
-          let ISRCAC =
-            OHEAC + TSSAC + SPAC + SSPAC + PAC + FOBAC + TKAC + EMUAC;
-          let ISRCGWP =
-            OHEGWP + TSSGWP + SPGWP + SSPGWP + PGWP + FOBGWP + TKGWP + EMUGWP;
+          let IMRCADP =
+            OHEADP +
+            TSSADP +
+            SPADP +
+            SSPADP +
+            VADP +
+            ESADP +
+            USADP +
+            TNADP +
+            TKADP +
+            MCADP;
 
-          logVariableDerivations({ ISRCADP, ISRCAC, ISRCGWP });
+          let IMRCAC =
+            OHEAC +
+            TSSAC +
+            SPAC +
+            SSPAC +
+            VAC +
+            ESAC +
+            USAC +
+            TNAC +
+            TKAC +
+            MCAC;
+
+          let IMRCGWP =
+            OHEGWP +
+            TSSGWP +
+            SPGWP +
+            SSPGWP +
+            VGWP +
+            ESGWP +
+            USGWP +
+            TNGWP +
+            TKGWP +
+            MCGWP;
+
+          logVariableDerivations({ IMRCADP, IMRCAC, IMRCGWP });
 
           // Formatting the data
           let construction_impact_data = [
             {
               impactText:
-                "Total Construction and Maintenance Phase Impacts from Sub-Urban Railways on Abiotic Depletion Fossil",
+                "Total Construction and Maintenance Phase Impacts from Metro Rail on Abiotic Depletion Fossil",
               icon: "fa-fire-alt",
-              unit: `${removeDecimalPrecision(ISRCADP)} MJ/year`,
+              unit: `${removeDecimalPrecision(IMRCADP)} MJ/year`,
             },
             {
               impactText:
-                "Total Construction and Maintenance Phase Impacts from Sub-Urban Railways on Acidification",
+                "Total Construction and Maintenance Phase Impacts from Metro Rail on Acidification",
               icon: "fa-cloud",
-              unit: `${removeDecimalPrecision(ISRCAC)} kg SO2 eq./year`,
+              unit: `${removeDecimalPrecision(IMRCAC)} kg SO2 eq./year`,
             },
             {
               impactText:
-                "Total Construction and Maintenance Phase Impacts from Sub-Urban Railways on Global Warming",
+                "Total Construction and Maintenance Phase Impacts from Metro Rail on Global Warming",
               icon: "fa-globe",
-              unit: `${removeDecimalPrecision(ISRCGWP)} kg CO2 eq./year`,
+              unit: `${removeDecimalPrecision(IMRCGWP)} kg CO2 eq./year`,
             },
           ];
 
           generateAndDisplayResults(construction_impact_data);
 
-          // Calculate the total electricity required
-          let TELEC = tCoach * dT * 18; // kWh
-
-          logVariableDerivations({ TELEC });
-
           // Given constants for electricity impacts
-          let electricityImpacts = {
+          let impacts_per_kWh = {
             abiotic_depletion_fossil: 7.5, // MJ
             acidification: 0.00896, // kg SO2 eq.
             global_warming: 0.737, // kg CO2 eq.
           };
 
-          // Calculate the use phase impacts
-          let ISRUADP = TELEC * electricityImpacts.abiotic_depletion_fossil; // MJ/year
-          let ISRUAC = TELEC * electricityImpacts.acidification; // kg SO2 eq./year
-          let ISRUGWP = TELEC * electricityImpacts.global_warming; // kg CO2 eq./year
+          // Calculate the total electricity required
+          let TELEC = TMetro * dT * 33;
 
-          logVariableDerivations({ ISRUADP, ISRUAC, ISRUGWP });
+          logVariableDerivations({ TELEC });
+
+          // Total Use Phase Impacts from Metro Rail on Abiotic Depletion Fossil
+
+          let IMRUADP = TELEC * impacts_per_kWh.abiotic_depletion_fossil; // MJ/year
+
+          // Total Use Phase Impacts from Metro Rail on Acidification
+          let IMRUAC = TELEC * impacts_per_kWh.acidification; // kg SO2 eq./year
+
+          // Total Use Phase Impacts from Metro Rail on Global Warming
+          let IMRUGWP = TELEC * impacts_per_kWh.global_warming; // kg CO2 eq./year
+
+          logVariableDerivations({ IMRUADP, IMRUAC, IMRUGWP });
 
           // Formatting the data
           let usePhaseData = [
             {
               impactText:
-                "Total Use Phase Impacts from Sub-Urban Railways on Abiotic Depletion Fossil",
-              unit: `${removeDecimalPrecision(ISRUADP)} MJ/year`,
+                "Total Use Phase Impacts from Metro Rail on Abiotic Depletion Fossil",
+              unit: `${removeDecimalPrecision(IMRUADP)} MJ/year`,
             },
             {
               impactText:
-                "Total Use Phase Impacts from Sub-Urban Railways on Acidification",
-              unit: `${removeDecimalPrecision(ISRUAC)} kg SO2 eq./year`,
+                "Total Use Phase Impacts from Metro Rail on Acidification",
+              unit: `${removeDecimalPrecision(IMRUAC)} kg SO2 eq./year`,
             },
             {
               impactText:
-                "Total Use Phase Impacts from Sub-Urban Railways on Global Warming",
-              unit: `${removeDecimalPrecision(ISRUGWP)} kg CO2 eq./year`,
+                "Total Use Phase Impacts from Metro Rail on Global Warming",
+              unit: `${removeDecimalPrecision(IMRUGWP)} kg CO2 eq./year`,
             },
           ];
           generateAndDisplayResults(usePhaseData, "use-phase-results-div");
 
-          // Summing up the impacts for Sub-Urban Railways
-          let overall_abiotic_depletion_fossil = ISRCADP + ISRUADP; // MJ/year
-          let overall_acidification = ISRCAC + ISRUAC; // kg SO2 eq./year
-          let overall_global_warming = ISRCGWP + ISRUGWP; // kg CO2 eq./year
+          // Overall Impacts from Metro Rail on ADP fossil
+          let overall_IMRCADP = IMRCADP + IMRUADP;
+
+          // Overall Impacts from Metro Rail on Acidification
+          let overall_IMRCAC = IMRCAC + IMRUAC;
+
+          // Overall Impacts from Metro Rail on Global Warming
+          let overall_IMRCGWP = IMRCGWP + IMRUGWP;
 
           logVariableDerivations({
-            overall_abiotic_depletion_fossil,
-            overall_acidification,
-            overall_global_warming,
+            overall_IMRCADP,
+            overall_IMRCAC,
+            overall_IMRCGWP,
           });
 
           // Formatting the data
@@ -755,26 +735,24 @@
             {
               icon: "tree",
               title: "Overall Impacts on Abiotic Depletion Fossil",
-              description: `${removeDecimalPrecision(
-                overall_abiotic_depletion_fossil
-              )} MJ/year`,
+              description: `${removeDecimalPrecision(overall_IMRCADP)} MJ/year`,
             },
             {
               icon: "water",
               title: "Overall Impacts on Acidification",
               description: `${removeDecimalPrecision(
-                overall_acidification
+                overall_IMRCAC
               )} kg SO2 eq./year`,
             },
             {
               icon: "thermometer-full",
               title: "Overall Impacts on Global Warming",
               description: `${removeDecimalPrecision(
-                overall_global_warming
+                overall_IMRCGWP
               )} kg CO2 eq./year`,
             },
           ];
-          let results_title = "Overall Impacts from Sub-Urban Railways";
+          let results_title = "Overall Impacts from Metro Rail";
           generateOverallResults(results_title, overallImpactData);
         }
 
