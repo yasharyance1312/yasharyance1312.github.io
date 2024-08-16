@@ -1479,7 +1479,7 @@
         }
 
         function removeDecimalPrecision(number) {
-          return number | 0;
+          return Math.floor(number);
         }
 
         function generateOverallResults(results_title, impactItems) {
