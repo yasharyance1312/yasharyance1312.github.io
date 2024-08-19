@@ -318,6 +318,32 @@
     .logo {
       cursor: pointer;
     }
+
+
+    .impact-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .impact-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .impact-title {
+      text-align: left;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .impact-value {
+      text-align: right;
+      flex: 0 0 200px;
+      /* Adjust the width as needed */
+    }
   </style>
 </head>
 
@@ -350,11 +376,11 @@
         </div>
       </div>
 
-      <div class="result-containers" id="use-phase-results-div">
+      <div class="result-containers" id="use-phase-results-div" class="impact-table">
         <div class="title">Use Phase - Electricity Requirement</div>
       </div>
 
-      <div class="result-containers" id="construction-phase-results-div">
+      <div class="result-containers" id="construction-phase-results-div" class="impact-table">
         <div class="title">Construction and Maintenance Phases</div>
       </div>
 
@@ -812,43 +838,79 @@
         derivationDiv.innerHTML = "";
       }
 
+      // function generateAndDisplayResults(
+      //   data,
+      //   divID = "construction-phase-results-div"
+      // ) {
+      //   let container = document.getElementById(divID);
+
+      //   container.style.display = "block";
+
+      //   data.forEach((item) => {
+      //     const impactItem = document.createElement("div");
+      //     impactItem.classList.add("impact-item");
+
+      //     const iconContainer = document.createElement("div");
+      //     iconContainer.classList.add("icon");
+      //     const icon = document.createElement("i");
+      //     icon.classList.add("fas", item.icon);
+      //     iconContainer.appendChild(icon);
+      //     impactItem.appendChild(iconContainer);
+
+      //     const impactText = document.createElement("div");
+      //     impactText.classList.add("impact-text");
+      //     impactText.textContent = item.impactText;
+      //     impactItem.appendChild(impactText);
+
+      //     const unit = document.createElement("div");
+      //     unit.classList.add("unit");
+      //     if (divID == "construction-phase-results-div") {
+      //       unit.classList.add("construction-number-color");
+      //     }
+      //     else if (divID == "use-phase-results-div") {
+      //       unit.classList.add("usephase-number-color");
+      //     }
+
+      //     unit.textContent = item.unit;
+      //     impactItem.appendChild(unit);
+
+      //     container.appendChild(impactItem);
+      //   });
+      // }
+
       function generateAndDisplayResults(
         data,
         divID = "construction-phase-results-div"
       ) {
         let container = document.getElementById(divID);
 
+        // Make the container visible
         container.style.display = "block";
 
+        // Loop through the data to create rows
         data.forEach((item) => {
-          const impactItem = document.createElement("div");
-          impactItem.classList.add("impact-item");
+          const rowDiv = document.createElement("div");
+          rowDiv.classList.add("impact-row");
 
-          const iconContainer = document.createElement("div");
-          iconContainer.classList.add("icon");
-          const icon = document.createElement("i");
-          icon.classList.add("fas", item.icon);
-          iconContainer.appendChild(icon);
-          impactItem.appendChild(iconContainer);
+          // Create the impact text column
+          const textDiv = document.createElement("div");
+          textDiv.classList.add("impact-title");
+          textDiv.textContent = item.impactText;
+          rowDiv.appendChild(textDiv);
 
-          const impactText = document.createElement("div");
-          impactText.classList.add("impact-text");
-          impactText.textContent = item.impactText;
-          impactItem.appendChild(impactText);
-
-          const unit = document.createElement("div");
-          unit.classList.add("unit");
-          if (divID == "construction-phase-results-div") {
-            unit.classList.add("construction-number-color");
+          // Create the impact unit column
+          const unitDiv = document.createElement("div");
+          unitDiv.classList.add("impact-value");
+          if (divID === "construction-phase-results-div") {
+            unitDiv.classList.add("construction-number-color");
+          } else if (divID === "use-phase-results-div") {
+            unitDiv.classList.add("usephase-number-color");
           }
-          else if (divID == "use-phase-results-div") {
-            unit.classList.add("usephase-number-color");
-          }
+          unitDiv.textContent = item.unit;
+          rowDiv.appendChild(unitDiv);
 
-          unit.textContent = item.unit;
-          impactItem.appendChild(unit);
-
-          container.appendChild(impactItem);
+          // Append the row to the container
+          container.appendChild(rowDiv);
         });
       }
 
