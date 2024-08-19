@@ -746,23 +746,23 @@
           {
             icon: "fire-alt",
             title: "Overall Impacts on Abiotic Depletion Fossil",
-            description: `${removeDecimalPrecision(
+            description: `${ toINRNumber(removeDecimalPrecision(
               overall_abiotic_depletion_fossil
-            )} MJ/year`,
+            ))} MJ/year`,
           },
           {
             icon: "cloud",
             title: "Overall Impacts on Acidification",
-            description: `${removeDecimalPrecision(
+            description: `${toINRNumber(removeDecimalPrecision(
               overall_acidification
-            )} kg SO2 eq./year`,
+            ))} kg SO2 eq./year`,
           },
           {
             icon: "globe",
             title: "Overall Impacts on Global Warming",
-            description: `${removeDecimalPrecision(
+            description: `${toINRNumber(removeDecimalPrecision(
               overall_global_warming
-            )} kg CO2 eq./year`,
+            ))} kg CO2 eq./year`,
           },
         ];
         let results_title = "Overall Impacts from Sub-Urban Railways";
@@ -845,6 +845,10 @@
 
       function removeDecimalPrecision(number) {
         return Math.floor(number);
+      }
+
+      function toINRNumber(value) {
+        return value.toLocaleString('en-IN');
       }
 
       function generateOverallResults(results_title, impactItems) {
