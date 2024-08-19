@@ -752,21 +752,21 @@
           {
             icon: "fire-alt",
             title: "Overall Impacts on Abiotic Depletion Fossil",
-            description: `${removeDecimalPrecision(overall_IMRCADP)} MJ/year`,
+            description: `${toINRNumber(removeDecimalPrecision(overall_IMRCADP))} MJ/year`,
           },
           {
             icon: "cloud",
             title: "Overall Impacts on Acidification",
-            description: `${removeDecimalPrecision(
+            description: `${toINRNumber(removeDecimalPrecision(
               overall_IMRCAC
-            )} kg SO2 eq./year`,
+            ))} kg SO2 eq./year`,
           },
           {
             icon: "globe",
             title: "Overall Impacts on Global Warming",
-            description: `${removeDecimalPrecision(
+            description: `${toINRNumber(removeDecimalPrecision(
               overall_IMRCGWP
-            )} kg CO2 eq./year`,
+            ))} kg CO2 eq./year`,
           },
         ];
         let results_title = "Overall Impacts from Metro Rail";
@@ -849,6 +849,10 @@
 
       function removeDecimalPrecision(number) {
         return Math.floor(number);
+      }
+
+      function toINRNumber(value) {
+        return value.toLocaleString('en-IN');
       }
 
       function generateOverallResults(results_title, impactItems) {
