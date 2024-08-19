@@ -212,6 +212,7 @@
 
     .unit {
       padding-left: 5px;
+      font-size: 14px;
     }
 
     .result-containers {
@@ -250,10 +251,16 @@
     }
 
     .unit {
-      font-size: 12px;
-      color: #777;
-      /* Light gray color */
+      font-size: 14px;
       padding-left: 5px;
+    }
+
+    .usephase-number-color {
+      color: #E57373;
+    }
+
+    .construction-number-color {
+      color: #D4AF37;
     }
 
     .card-header {
@@ -836,6 +843,13 @@
 
           const unit = document.createElement("div");
           unit.classList.add("unit");
+          if (divID == "construction-phase-results-div") {
+            unit.classList.add("construction-number-color");
+          }
+          else if (divID == "use-phase-results-div") {
+            unit.classList.add("usephase-number-color");
+          }
+
           unit.textContent = item.unit;
           impactItem.appendChild(unit);
 
