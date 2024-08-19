@@ -360,7 +360,7 @@
     <div id="results-div">
       <div class="result-containers container mt-4" id="overall-results-div">
         <h1 class="text-center" id="overall-results-header">
-          <!-- Overall Impacts from Road Transportation Having Flexible Pavement -->
+          <!-- Overall Impact from Road Transportation Having Flexible Pavement -->
         </h1>
         <div class="row-wrapper">
           <div class="row"></div>
@@ -702,40 +702,40 @@
         let iCME_abiotic_depletion_fossil = 0;
         let iCME_acidification = 0;
         let iCME_global_warming = 0;
-        let results_title = "Overall Impacts from Road Transportation";
+        let results_title = "Overall Impact from Road Transportation";
 
         if (roadPavement == "rigid") {
           iCME_abiotic_depletion_fossil = irCME_abiotic_depletion_fossil;
           iCME_acidification = irCME_acidification;
           iCME_global_warming = irCME_global_warming;
           results_title =
-            "Overall Impacts from Road Transportation Having Rigid Pavement";
+            "Overall Impact from Road Transportation Having Rigid Pavement";
         } else {
           iCME_abiotic_depletion_fossil = ifCME_abiotic_depletion_fossil;
           iCME_acidification = ifCME_acidification;
           iCME_global_warming = ifCME_global_warming;
           results_title =
-            "Overall Impacts from Road Transportation Having Flexible Pavement";
+            "Overall Impact from Road Transportation Having Flexible Pavement";
         }
 
         let overall_impact_data = [
           {
             icon: "bus",
-            title: `Overall Impacts on Abiotic Depletion Fossil `,
+            title: `Overall Impact on Abiotic Depletion Fossil `,
             description: ` ${removeDecimalPrecision(
               iCME_abiotic_depletion_fossil + iFC_abiotic_depletion_fossil
             )} MJ/year`,
           },
           {
             icon: "cloud",
-            title: `Overall Impacts on Acidification`,
+            title: `Overall Impact on Acidification`,
             description: `${removeDecimalPrecision(
               iCME_acidification + iFC_acidification
             )} kg SO2 eq./year`,
           },
           {
             icon: "globe",
-            title: `Overall Impacts on Global Warming`,
+            title: `Overall Impact on Global Warming`,
             description: ` ${removeDecimalPrecision(
               iCME_global_warming + iFC_global_warming + iTE
             )} kg CO2 eq./year`,
