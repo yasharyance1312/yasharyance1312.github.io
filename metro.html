@@ -848,11 +848,11 @@
       }
 
       function removeDecimalPrecision(number) {
-        return Math.floor(number);
+        return Math.floor(number).toLocaleString('en-IN');
       }
 
       function toINRNumber(value) {
-        return value.toLocaleString('en-IN');
+        return value;
       }
 
       function generateOverallResults(results_title, impactItems) {
